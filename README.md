@@ -60,6 +60,11 @@
 | 中文上下文注入 | - | SessionStart Hook |
 | 通知翻译 | 6 条 | Notification Hook |
 | 输出风格 | - | Chinese Output Style |
+| 回复耗时动词 | 8 个 | CLI Patch（琢磨了、搞定了...） |
+| /btw /clear 提示 | 2 条 | CLI Patch |
+| Tip/回顾/提醒文字 | 3 处 | CLI Patch |
+
+**注意**：CLI Patch 通过 `sed` 修改 `cli.js`，Claude Code 更新后需重跑 `./install.sh`。
 
 权限对话框、`/help` 输出等硬编码 UI 暂未覆盖（需 Anthropic 官方支持）。
 
