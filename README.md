@@ -62,6 +62,10 @@
 | 输出风格 | - | Chinese Output Style |
 | 回复耗时动词 | 8 个 | CLI Patch（琢磨了、忙活了...） |
 | /btw /clear 提示 | 2 条 | CLI Patch |
+| /compact 提示 | 1 条 | CLI Patch（压缩对话中…） |
+| Hook 运行提示 | 5 条 | CLI Patch（运行会话启动 Hook…、运行停止 Hook… 等） |
+| Hook 计数 | 2 条 | CLI Patch（1 个 Hook…、3 个 Hook…） |
+| 后台代理提示 | 1 条 | CLI Patch（所有后台代理已停止） |
 | Tip 前缀 → 💡 | 1 处 | CLI Patch |
 | 自动重 patch | - | 版本检测，更新后首次会话自动修复 |
 

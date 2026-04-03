@@ -55,11 +55,29 @@ if (tipMatch) {
     count++;
 }
 
-// 5. 去掉耗时连接符（两处模板：${QE} Worked for ${I5(...)} 和 ${$} for ${M}）
+// 5. /compact 压缩对话提示
+tryReplace("Compacting conversation\u2026", "\u538b\u7f29\u5bf9\u8bdd\u4e2d\u2026");
+tryReplace("Compacting conversation", "\u538b\u7f29\u5bf9\u8bdd\u4e2d");
+
+// 6. Hook 运行提示（Hook 保留英文，技术术语）
+tryReplace("Running PreCompact hooks\u2026", "\u8fd0\u884c\u9884\u538b\u7f29 Hook\u2026");
+tryReplace("Running PostCompact hooks\u2026", "\u8fd0\u884c\u538b\u7f29\u540e Hook\u2026");
+tryReplace("Running SessionStart hooks\u2026", "\u8fd0\u884c\u4f1a\u8bdd\u542f\u52a8 Hook\u2026");
+tryReplace("running stop hooks\u2026", "\u8fd0\u884c\u505c\u6b62 Hook\u2026");
+tryReplace("running ${yq} hook", "\u8fd0\u884c ${yq} Hook");
+
+// 7. Hook 计数（cli.js 里 … 是真实 U+2026 字符）
+tryReplace("\u0022 hook\u2026\u0022", "\u0022 \u4e2a Hook\u2026\u0022");
+tryReplace("\u0022 hooks\u2026\u0022", "\u0022 \u4e2a Hook\u2026\u0022");
+
+// 8. 其他 UI 文字
+tryReplace("\u0022All background agents stopped\u0022", "\u0022\u6240\u6709\u540e\u53f0\u4ee3\u7406\u5df2\u505c\u6b62\u0022");
+
+// 9. 去掉耗时连接符（两处模板：${QE} Worked for ${I5(...)} 和 ${$} for ${M}）
 tryReplace(" Worked for ", " ");
 tryReplace(" for ${M}", " ${M}");
 
-// 6. 时间单位中文化（通过特征定位 duration formatter 函数）
+// 10. 时间单位中文化（通过特征定位 duration formatter 函数）
 const marker = "if(q<60000)";
 const markerIdx = s.indexOf(marker);
 if (markerIdx !== -1) {
