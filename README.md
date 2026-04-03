@@ -62,7 +62,7 @@
 | 输出风格 | - | Chinese Output Style |
 | 回复耗时动词 | 8 个 | CLI Patch（琢磨了、忙活了...） |
 | /btw /clear 提示 | 2 条 | CLI Patch |
-| Tip/回顾/提醒文字 | 3 处 | CLI Patch |
+| Tip 前缀 → 💡 | 1 处 | CLI Patch |
 | 自动重 patch | - | 版本检测，更新后首次会话自动修复 |
 
 权限对话框、`/help` 输出等硬编码 UI 暂未覆盖（需 Anthropic 官方支持）。
