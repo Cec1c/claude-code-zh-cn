@@ -55,13 +55,16 @@ if $USE_JQ; then
     echo "$MERGED" > "$SETTINGS_FILE"
 else
     # 使用 python3 合并
-    python3 -c "
-import json, sys
+    ZH_CN_SETTINGS="$SETTINGS_FILE" ZH_CN_OVERLAY="$OVERLAY_CONTENT" python3 -c "
+import json, sys, os
 
-with open('$SETTINGS_FILE', 'r') as f:
+settings_file = os.environ['ZH_CN_SETTINGS']
+overlay_content = os.environ['ZH_CN_OVERLAY']
+
+with open(settings_file, 'r') as f:
     settings = json.load(f)
 
-overlay = json.loads('''$OVERLAY_CONTENT''')
+overlay = json.loads(overlay_content)
 
 # Deep merge - overlay takes precedence
 def deep_merge(base, override):
@@ -75,10 +78,10 @@ def deep_merge(base, override):
 
 merged = deep_merge(settings, overlay)
 
-with open('$SETTINGS_FILE', 'w') as f:
+with open(settings_file, 'w') as f:
     json.dump(merged, f, indent=2, ensure_ascii=False)
     f.write('\n')
-"
+" 2>/dev/null
 fi
 
 echo -e "${GREEN}已更新 settings.json${NC}"
@@ -154,7 +157,6 @@ let s = fs.readFileSync(f, "utf8");
 
 // 去掉 " for "
 s = s.split("`${$} for ${M}`").join("`${$} ${M}`");
-s = s.split("G=H&&`").join("G=H&&`");
 
 // 替换 I5 函数内的时间单位
 const i5Start = s.indexOf("function I5(q,K){if(q<60000)");

@@ -16,12 +16,12 @@ NC='\033[0m'
 echo -e "${BLUE}=== Claude Code 中文本地化插件 卸载 ===${NC}"
 echo ""
 
-# 查找最近的备份
-LATEST_BACKUP=$(ls -t "$HOME/.claude/settings.json.zh-cn-backup."* 2>/dev/null | head -1)
+# 查找最早的备份（即原始文件）
+OLDEST_BACKUP=$(ls -t "$HOME/.claude/settings.json.zh-cn-backup."* 2>/dev/null | tail -1)
 
-if [ -n "$LATEST_BACKUP" ]; then
-    cp "$LATEST_BACKUP" "$SETTINGS_FILE"
-    echo -e "${GREEN}已恢复 settings.json ← ${LATEST_BACKUP}${NC}"
+if [ -n "$OLDEST_BACKUP" ]; then
+    cp "$OLDEST_BACKUP" "$SETTINGS_FILE"
+    echo -e "${GREEN}已恢复 settings.json ← ${OLDEST_BACKUP}${NC}"
 else
     # 没有备份，手动移除中文设置
     if command -v jq &>/dev/null; then
