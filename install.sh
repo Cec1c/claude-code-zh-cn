@@ -115,7 +115,7 @@ if [ -f "$CLI_FILE" ]; then
     PATCH_COUNT=0
 
     # 1. 过去式动词 (Cogitated for 2m 25s → 思考了 2m 25s)
-    if sed_inplace 's/UE6=\["Baked","Brewed","Churned","Cogitated","Cooked","Crunched","Sautéed","Worked"\]/UE6=["烘焙了","沏好了","翻搅了","琢磨了","烹饪了","嚼完了","翻炒了","搞定了"]/g' "$CLI_FILE" 2>/dev/null; then
+    if sed_inplace 's/UE6=\["Baked","Brewed","Churned","Cogitated","Cooked","Crunched","Sautéed","Worked"\]/UE6=["烘焙了","沏了","翻搅了","琢磨了","烹饪了","嚼了","翻炒了","忙活了"]/g' "$CLI_FILE" 2>/dev/null; then
         PATCH_COUNT=$((PATCH_COUNT + 1))
     fi
 
