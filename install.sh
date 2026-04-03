@@ -21,6 +21,11 @@ echo -e "${BLUE}=== Claude Code 中文本地化插件 安装 ===${NC}"
 echo ""
 
 # 检查依赖
+if ! command -v node &>/dev/null; then
+    echo -e "${RED}错误：需要 node，请先安装${NC}"
+    exit 1
+fi
+
 if ! command -v python3 &>/dev/null; then
     echo -e "${RED}错误：需要 python3，请先安装${NC}"
     exit 1
@@ -54,7 +59,7 @@ if $USE_JQ; then
     MERGED=$(jq -s '.[0] * .[1]' "$SETTINGS_FILE" <(echo "$OVERLAY_CONTENT"))
     echo "$MERGED" > "$SETTINGS_FILE"
 else
-    # 使用 python3 合并
+    # 使用 python3 合并（通过环境变量传参，避免注入风险）
     ZH_CN_SETTINGS="$SETTINGS_FILE" ZH_CN_OVERLAY="$OVERLAY_CONTENT" python3 -c "
 import json, sys, os
 
@@ -102,93 +107,112 @@ if [ -f "$CLI_FILE" ]; then
     echo ""
     echo -e "${BLUE}正在 patch cli.js 硬编码文字...${NC}"
 
-    # 备份 cli.js
-    cp "$CLI_FILE" "${CLI_FILE}.zh-cn-backup"
-    echo -e "${GREEN}已备份 cli.js${NC}"
-
-    # macOS uses sed -i '', Linux uses sed -i
-    sed_inplace() {
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i "" "$@"
-        else
-            sed -i "$@"
-        fi
-    }
-
-    PATCH_COUNT=0
-
-    # 1. 过去式动词 (Cogitated for 2m 25s → 思考了 2m 25s)
-    if sed_inplace 's/UE6=\["Baked","Brewed","Churned","Cogitated","Cooked","Crunched","Sautéed","Worked"\]/UE6=["烘焙了","沏了","翻搅了","琢磨了","烹饪了","嚼了","翻炒了","忙活了"]/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
+    # 如果已有备份，先恢复原始文件再重新 patch（确保幂等）
+    if [ -f "${CLI_FILE}.zh-cn-backup" ]; then
+        cp "${CLI_FILE}.zh-cn-backup" "$CLI_FILE"
+        echo -e "${GREEN}已从备份恢复原始 cli.js${NC}"
+    else
+        # 首次安装，备份原始文件
+        cp "$CLI_FILE" "${CLI_FILE}.zh-cn-backup"
+        echo -e "${GREEN}已备份 cli.js${NC}"
     fi
 
-    # 2. /btw 提示
-    if sed_inplace 's/Use \/btw to ask a quick side question without interrupting Claude'\''s current work/使用 \/btw 提一个快速问题，不会打断当前工作/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
-    fi
-
-    # 3. /clear 提示
-    if sed_inplace 's/Use \/clear to start fresh when switching topics and free up context/使用 \/clear 清空对话，切换话题并释放上下文/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
-    fi
-
-    # 4. Tip: 前缀 → 💡
-    if sed_inplace 's/`Tip: \${A6}`/`💡 \${A6}`/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
-    fi
-
-    # 5. recap: 前缀 → 回顾:
-    if sed_inplace 's/"recap:"," "/"回顾:"," "/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
-    fi
-
-    # 6. nudge/nudges → 次提醒
-    if sed_inplace 's/===1?"nudge":"nudges"/===1?"次提醒":"次提醒"/g' "$CLI_FILE" 2>/dev/null; then
-        PATCH_COUNT=$((PATCH_COUNT + 1))
-    fi
-
-    # 7-8. 时间格式中文化 (用 node 做精确字符串替换)
-    # "沏好了 for 1m 59s" → "沏好了 1分59秒"
-    if command -v node &>/dev/null; then
-        node -e '
+    # 用 node 统一处理所有 patch（基于内容匹配，不依赖变量名，跨版本稳定）
+    PATCH_COUNT=$(node -e '
 const fs = require("fs");
 const f = process.argv[1];
 let s = fs.readFileSync(f, "utf8");
+let count = 0;
 
-// 去掉 " for "
-s = s.split("`${$} for ${M}`").join("`${$} ${M}`");
+function tryReplace(from, to) {
+    if (s.includes(from)) {
+        s = s.split(from).join(to);
+        count++;
+        return true;
+    }
+    return false;
+}
 
-// 替换 I5 函数内的时间单位
-const i5Start = s.indexOf("function I5(q,K){if(q<60000)");
-const i5End = s.indexOf("}function uK(q)", i5Start);
-if (i5Start !== -1 && i5End !== -1) {
-    let fn = s.substring(i5Start, i5End + 1);
-    // 简单字符串替换，从长到短避免误替换
-    const pairs = [
-        ["}d ${z}h ${Y}m ${$}s", "}天${z}时${Y}分${$}秒"],
-        ["}d ${z}h ${Y}m", "}天${z}时${Y}分"],
-        ["}h ${Y}m ${$}s", "}时${Y}分${$}秒"],
-        ["}d ${z}h", "}天${z}时"],
-        ["}h ${Y}m", "}时${Y}分"],
-        ["}m ${$}s", "}分${$}秒"],
-        ["}d", "}天"],
-        ["}h", "}时"],
-        ["}m", "}分"],
-        ["}s", "}秒"],
-        ["\"0s\"", "\"0秒\""],
-    ];
-    pairs.forEach(([from, to]) => { fn = fn.split(from).join(to); });
-    // 修复 "0秒" 和单独数字秒
-    fn = fn.split("\"0秒\"").join("\"0秒\"");
-    s = s.substring(0, i5Start) + fn + s.substring(i5End + 1);
+// 1. 过去式动词（直接用 UTF-8 字符，不用 String.raw 避免 \u 转义问题）
+tryReplace(
+    `["Baked","Brewed","Churned","Cogitated","Cooked","Crunched","Saut\u00e9ed","Worked"]`,
+    `["烘焙了","沏了","翻搅了","琢磨了","烹饪了","嚼了","翻炒了","忙活了"]`
+);
+
+// 2. /btw 提示（用 Unicode 转义避免 bash 单引号问题）
+tryReplace(
+    "Use /btw to ask a quick side question without interrupting Claude\u0027s current work",
+    "\u4f7f\u7528 /btw \u63d0\u4e00\u4e2a\u5feb\u901f\u95ee\u9898\uff0c\u4e0d\u4f1a\u6253\u65ad\u5f53\u524d\u5de5\u4f5c"
+);
+
+// 3. /clear 提示
+tryReplace(
+    "Use /clear to start fresh when switching topics and free up context",
+    "\u4f7f\u7528 /clear \u6e05\u7a7a\u5bf9\u8bdd\uff0c\u5207\u6362\u8bdd\u9898\u5e76\u91ca\u653e\u4e0a\u4e0b\u6587"
+);
+
+// 4. Tip: 前缀（匹配 Tip: ${任意变量}）
+const tipMatch = s.match(/\x60Tip: \$\{[^}]+\}\x60/);
+if (tipMatch) {
+    const replaced = tipMatch[0].replace("Tip: ", "\u{1F4A1} ");
+    s = s.split(tipMatch[0]).join(replaced);
+    count++;
+}
+
+// 5. recap: 和 nudge/nudges — v2.1.91+ 已移除，跳过
+
+// 6. 去掉耗时 " Worked for " / " for " 连接符
+if (!tryReplace(" Worked for ", " ")) {
+    tryReplace(" for ", " ");
+}
+
+// 8. 时间单位中文化（通过特征定位 duration formatter 函数）
+const marker = "if(q<60000)";
+const markerIdx = s.indexOf(marker);
+if (markerIdx !== -1) {
+    const fnStart = s.lastIndexOf("function", markerIdx);
+    if (fnStart !== -1) {
+        let depth = 0, fnEnd = -1;
+        for (let i = s.indexOf("{", fnStart); i < s.length; i++) {
+            if (s[i] === "{") depth++;
+            else if (s[i] === "}") depth--;
+            if (depth === 0) { fnEnd = i; break; }
+        }
+        if (fnEnd !== -1) {
+            let fn = s.substring(fnStart, fnEnd + 1);
+            const pairs = [
+                ["}d ${z}h ${Y}m ${$}s", "}\u5929${z}\u65f6${Y}\u5206${$}\u79d2"],
+                ["}d ${z}h ${Y}m", "}\u5929${z}\u65f6${Y}\u5206"],
+                ["}h ${Y}m ${$}s", "}\u65f6${Y}\u5206${$}\u79d2"],
+                ["}d ${z}h", "}\u5929${z}\u65f6"],
+                ["}h ${Y}m", "}\u65f6${Y}\u5206"],
+                ["}m ${$}s", "}\u5206${$}\u79d2"],
+                ["}d", "}\u5929"],
+                ["}h", "}\u65f6"],
+                ["}m", "}\u5206"],
+                ["}s", "}\u79d2"],
+                ["\"0s\"", "\"0\u79d2\""],
+            ];
+            let changed = false;
+            pairs.forEach(([from, to]) => {
+                if (fn.includes(from)) {
+                    fn = fn.split(from).join(to);
+                    changed = true;
+                }
+            });
+            if (changed) {
+                s = s.substring(0, fnStart) + fn + s.substring(fnEnd + 1);
+                count++;
+            }
+        }
+    }
 }
 
 fs.writeFileSync(f, s);
-console.log("patched");
-' "$CLI_FILE" 2>/dev/null && PATCH_COUNT=$((PATCH_COUNT + 2))
-    fi
+console.log(count);
+' "$CLI_FILE" 2>/dev/null)
 
-    echo -e "${GREEN}已 patch cli.js（${PATCH_COUNT} 处硬编码文字）${NC}"
+    echo -e "${GREEN}已 patch cli.js（${PATCH_COUNT:-0} 处硬编码文字）${NC}"
 else
     echo -e "${YELLOW}未找到 cli.js，跳过 patch 步骤${NC}"
     echo -e "  提示：如果 Claude Code 安装在非标准路径，可能需要手动 patch"
