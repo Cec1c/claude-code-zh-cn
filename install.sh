@@ -144,6 +144,48 @@ if [ -f "$CLI_FILE" ]; then
         PATCH_COUNT=$((PATCH_COUNT + 1))
     fi
 
+    # 7-8. 时间格式中文化 (用 node 做精确字符串替换)
+    # "沏好了 for 1m 59s" → "沏好了 1分59秒"
+    if command -v node &>/dev/null; then
+        node -e '
+const fs = require("fs");
+const f = process.argv[1];
+let s = fs.readFileSync(f, "utf8");
+
+// 去掉 " for "
+s = s.split("`${$} for ${M}`").join("`${$} ${M}`");
+s = s.split("G=H&&`").join("G=H&&`");
+
+// 替换 I5 函数内的时间单位
+const i5Start = s.indexOf("function I5(q,K){if(q<60000)");
+const i5End = s.indexOf("}function uK(q)", i5Start);
+if (i5Start !== -1 && i5End !== -1) {
+    let fn = s.substring(i5Start, i5End + 1);
+    // 简单字符串替换，从长到短避免误替换
+    const pairs = [
+        ["}d ${z}h ${Y}m ${$}s", "}天${z}时${Y}分${$}秒"],
+        ["}d ${z}h ${Y}m", "}天${z}时${Y}分"],
+        ["}h ${Y}m ${$}s", "}时${Y}分${$}秒"],
+        ["}d ${z}h", "}天${z}时"],
+        ["}h ${Y}m", "}时${Y}分"],
+        ["}m ${$}s", "}分${$}秒"],
+        ["}d", "}天"],
+        ["}h", "}时"],
+        ["}m", "}分"],
+        ["}s", "}秒"],
+        ["\"0s\"", "\"0秒\""],
+    ];
+    pairs.forEach(([from, to]) => { fn = fn.split(from).join(to); });
+    // 修复 "0秒" 和单独数字秒
+    fn = fn.split("\"0秒\"").join("\"0秒\"");
+    s = s.substring(0, i5Start) + fn + s.substring(i5End + 1);
+}
+
+fs.writeFileSync(f, s);
+console.log("patched");
+' "$CLI_FILE" 2>/dev/null && PATCH_COUNT=$((PATCH_COUNT + 2))
+    fi
+
     echo -e "${GREEN}已 patch cli.js（${PATCH_COUNT} 处硬编码文字）${NC}"
 else
     echo -e "${YELLOW}未找到 cli.js，跳过 patch 步骤${NC}"
