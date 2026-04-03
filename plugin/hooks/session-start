@@ -1,14 +1,49 @@
 #!/usr/bin/env bash
 # session-start hook for claude-code-zh-cn
-# Injects Chinese context into Claude Code sessions
+# 1. 注入中文上下文指令
+# 2. 检测 cli.js 版本变更，自动重 patch
 
+PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/plugins/claude-code-zh-cn}"
+MARKER_FILE="$PLUGIN_ROOT/.patched-version"
+
+# 自动 patch 检测
+CLI_FILE="$(dirname "$(which claude)")/../lib/node_modules/@anthropic-ai/claude-code/cli.js" 2>/dev/null || true
+if [ -z "$CLI_FILE" ]; then
+    CLI_FILE="$(npm root -g)/@anthropic-ai/claude-code/cli.js" 2>/dev/null || true
+fi
+
+AUTO_PATCH_MSG=""
+if [ -f "$CLI_FILE" ]; then
+    # 读取当前 cli.js 版本
+    CURRENT_VERSION=$(head -6 "$CLI_FILE" | grep -o '// Version: [^ ]*' | head -1 | sed 's/\/\/ Version: //')
+    PATCHED_VERSION=""
+    [ -f "$MARKER_FILE" ] && PATCHED_VERSION=$(cat "$MARKER_FILE")
+
+    if [ "$CURRENT_VERSION" != "$PATCHED_VERSION" ]; then
+        # 版本变了（或首次），执行 patch
+        # 如果有备份先恢复
+        if [ -f "${CLI_FILE}.zh-cn-backup" ]; then
+            cp "${CLI_FILE}.zh-cn-backup" "$CLI_FILE"
+        fi
+
+        PATCH_COUNT=$("$PLUGIN_ROOT/patch-cli.sh" "$CLI_FILE" 2>/dev/null || echo "0")
+
+        if [ "$PATCH_COUNT" != "0" ]; then
+            echo "$CURRENT_VERSION" > "$MARKER_FILE"
+            AUTO_PATCH_MSG="（已自动 patch ${PATCH_COUNT} 处硬编码文字）"
+        fi
+    fi
+fi
+
+# 读取用户输入
 read -r INPUT
 
-cat <<'HOOK_OUTPUT'
+# 输出中文上下文注入
+cat <<HOOK_OUTPUT
 {
   "hookSpecificOutput": {
     "hookEventName": "SessionStart",
-    "additionalContext": "## 中文本地化提示\n\n你正在使用中文本地化版本。请遵循以下规则：\n- 默认使用中文（简体）回复用户\n- 技术术语保留英文（如 API、PR、git、npm、React、TypeScript 等）\n- 使用中文标点符号（，。！？：；「」）\n- 错误信息尽量提供中文解释，附带英文原文\n- 保持简洁直接的风格\n- 代码注释使用中文\n- 日期格式使用 YYYY年MM月DD日\n\n## 常见错误信息翻译参考\n- Permission denied → 权限被拒绝\n- File not found → 文件未找到\n- Command not found → 命令未找到\n- Connection refused → 连接被拒绝\n- Timeout → 超时\n- Rate limited → 请求频率受限\n- Internal server error → 服务器内部错误\n- Unauthorized → 未授权\n- Forbidden → 禁止访问\n- Not found → 未找到"
+    "additionalContext": "## 中文本地化提示\n\n你正在使用中文本地化版本。请遵循以下规则：\n- 默认使用中文（简体）回复用户\n- 技术术语保留英文（如 API、PR、git、npm、React、TypeScript 等）\n- 使用中文标点符号（，。！？：；「」）\n- 错误信息尽量提供中文解释，附带英文原文\n- 保持简洁直接的风格\n- 代码注释使用中文\n- 日期格式使用 YYYY年MM月DD日\n\n## 常见错误信息翻译参考\n- Permission denied → 权限被拒绝\n- File not found → 文件未找到\n- Command not found → 命令未找到\n- Connection refused → 连接被拒绝\n- Timeout → 超时\n- Rate limited → 请求频率受限\n- Internal server error → 服务器内部错误\n- Unauthorized → 未授权\n- Forbidden → 禁止访问\n- Not found → 未找到${AUTO_PATCH_MSG:+\\n\\n## 自动更新\\n${AUTO_PATCH_MSG}}"
   }
 }
 HOOK_OUTPUT
