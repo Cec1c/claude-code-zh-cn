@@ -185,6 +185,7 @@ vim verbs/zh-CN.json
 ## 致谢
 
 - UI 字符串提取自 [Claude Code](https://github.com/anthropics/claude-code)
+- 灵感来自 [zstings/claude-code-zh-cn](https://github.com/zstings/claude-code-zh-cn)（Claude Code VS Code 扩展中文汉化）
 
 ---
 
