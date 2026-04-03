@@ -9,46 +9,114 @@
 [![GitHub](https://img.shields.io/badge/GitHub-taekchef%2Fclaude--code--zh--cn-blue?logo=github)](https://github.com/taekchef/claude-code-zh-cn)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-%E2%89%A52.1.x-green)](https://github.com/anthropics/claude-code)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue)](./CHANGELOG.md)
+
+**3 条命令安装 · 更新后自动修复 · 卸载不丢配置**
 
 </div>
 
 ---
 
-## 安装后你的终端会变成这样
+## 为什么做这个？
+
+Claude Code 是一个很棒的终端 AI 编程助手，但它没有中文界面——所有 UI 文字硬编码在一个 13MB 的 `cli.js` 里，没有 i18n 基础设施。
+
+官方短期内不太可能加中文支持。所以我做了这个插件，通过四层机制（设置注入 + Hook 系统 + 插件系统 + CLI Patch）实现中文化，**不修改上游代码，更新后自动修复**。
+
+## 效果预览
+
+**安装前：**
 
 ```
-⠋ 光合作用中...
+⠙ Photosynthesizing...
+
+  Tip: Press Shift+Tab to switch between default, auto-accept edits, and plan modes
+```
+
+**安装后：**
+
+```
+⠙ 光合作用中...
 
   💡 按 Shift+Tab 在默认模式、自动接受编辑模式和 Plan 模式之间切换
 ```
 
-```
-⠋ 蹦迪中...
+更多画风：
 
-  💡 你知道可以直接把图片文件拖拽到终端里吗？
+```
+⠙ 蹦迪中...          ⠙ 七荤八素中...         ⠙ 搞事情中...
+⠙ 瞎忙活中...        ⠙ 花里胡哨中...         ⠙ 变魔术中...
 ```
 
 ```
   琢磨了 1分23秒
 ```
 
-187 个趣味 spinner 动词，41 条中文提示，回复耗时中文化，AI 默认中文回复。装完即用。
+187 个趣味 spinner 动词，41 条中文提示，回复耗时中文化，AI 默认中文回复。**装完即用。**
+
+## 快速开始
+
+### 安装
+
+```bash
+git clone https://github.com/taekchef/claude-code-zh-cn.git
+cd claude-code-zh-cn
+./install.sh
+```
+
+安装脚本会自动：
+- ✅ 备份现有 `~/.claude/settings.json` 和 `cli.js`
+- ✅ 合并中文设置到 settings.json
+- ✅ 安装插件到 `~/.claude/plugins/claude-code-zh-cn/`
+- ✅ Patch cli.js 硬编码文字（回复耗时、/btw、/clear 等）
+
+### 前置要求
+
+- Claude Code CLI >= 2.1.x
+- Node.js（CLI Patch 需要）
+- Python 3
+- 可选：jq（更精准的 JSON 合并）
+
+### 验证
+
+重启 Claude Code 后，发送任意请求。如果看到 spinner 显示“思考中”、“光合作用中”等中文，说明生效了。
+
+### 更新
+
+Claude Code 更新后，插件会在首次会话启动时**自动检测版本变更并重新 patch**，无需手动操作。
+
+如需手动更新插件本体：
+
+```bash
+cd claude-code-zh-cn
+git pull
+./install.sh
+```
+
+### 卸载
+
+```bash
+cd claude-code-zh-cn
+./uninstall.sh
+```
+
+精准移除插件注入的设置，保留你的其他配置不变。
 
 ## 特色：187 个趣味动词翻译
 
-原版 Claude Code 的 spinner 有一堆故意搞怪的英文动词（`Flibbertigibbeting`、`Photosynthesizing`、`Moonwalking`...），我们全部按原味翻译了：
+原版 Claude Code 的 spinner 有一堆故意搞怪的英文动词（`Flibbertigibbeting`、`Photosynthesizing`、`Moonwalking`...），我们全部按**原味**翻译了：
 
 | 英文 | 中文 | | 英文 | 中文 |
 |------|------|-|------|------|
 | `Thinking` | 思考中 | | `Moonwalking` | 太空步中 |
 | `Photosynthesizing` | 光合作用中 | | `Flibbertigibbeting` | 叽里呱啦中 |
-| `Discombobulating` | 七荤八素中 | | `Whatchamacalliting` | 那个啥来着中 |
+| `Discombobulating` | 七荤八素中 | | `Whatchamacalliting` | 那个啊来着中 |
 | `Shenaniganing` | 搞事情中 | | `Razzmatazzing` | 花里胡哨中 |
 | `Boondoggling` | 瞎忙活中 | | `Prestidigitating` | 变魔术中 |
 | `Clauding` | 克劳丁中 | | `Boogieing` | 蹦迪中 |
 | `Canoodling` | 腻歪中 | | `Spelunking` | 探洞中 |
 
-完整 187 个翻译见 [verbs/zh-CN.json](./verbs/zh-CN.json)
+> 完整 187 个翻译见 [verbs/zh-CN.json](./verbs/zh-CN.json)
 
 ## 覆盖了什么
 
@@ -69,43 +137,40 @@
 | Tip 前缀 → 💡 | 1 处 | CLI Patch |
 | 自动重 patch | - | 版本检测，更新后首次会话自动修复 |
 
-权限对话框、`/help` 输出等硬编码 UI 暂未覆盖（需 Anthropic 官方支持）。
+> 权限对话框、`/help` 输出等硬编码 UI 暂未覆盖（需 Anthropic 官方支持）。
 
-## 快速开始
+## 技术原理
 
-### 安装
+<details>
+<summary>展开看四层架构</summary>
 
-```bash
-git clone https://github.com/taekchef/claude-code-zh-cn.git
-cd claude-code-zh-cn
-./install.sh
+Claude Code CLI 是一个 13MB 的单文件压缩包（`cli.js`），所有 UI 文字硬编码其中，没有 i18n 基础设施。本项目通过四层机制实现中文化：
+
+### Layer 1 — 内置设置（稳定，更新后不丢失）
+- `language`: 控制 AI 回复语言
+- `spinnerTipsOverride`: 替换等待提示文字
+- `spinnerVerbs`: 替换 spinner 动词
+
+### Layer 2 — Hook 系统（稳定，更新后不丢失）
+- `SessionStart`: 会话启动时注入中文上下文指令 + 检测版本自动重 patch
+- `Notification`: 拦截系统通知并翻译
+
+### Layer 3 — 插件系统（稳定，更新后不丢失）
+- 标准 Claude Code 插件格式
+- 提供 Chinese Output Style
+
+### Layer 4 — CLI Patch（自动维护，更新后自动重 patch）
+- 基于 Node.js 的**内容匹配**，不依赖变量名，跨版本稳定
+- 替换 `cli.js` 中的硬编码文字（耗时动词、/btw、/clear、时间单位等）
+- `session-start` hook 检测版本变更，自动重新 patch
+- 有版本校验的备份机制，`uninstall.sh` 可还原
+
+```
+稳定性：Layer 1~3 完全不受 Claude Code 更新影响
+         Layer 4 自动检测并重新 patch
 ```
 
-安装脚本会自动：
-- 备份现有 `~/.claude/settings.json` 和 `cli.js`
-- 合并中文设置到 settings.json
-- 安装插件到 `~/.claude/plugins/claude-code-zh-cn/`
-- Patch cli.js 硬编码文字（回复耗时、/btw、/clear 等）
-
-### 前置要求
-
-- Claude Code CLI >= 2.1.x
-- Node.js（CLI Patch 需要）
-- Python 3
-- 可选：jq（更精准的 JSON 合并）
-
-### 验证
-
-重启 Claude Code 后，发送任意请求。如果看到 spinner 显示"思考中"、"光合作用中"等中文，说明生效了。
-
-### 卸载
-
-```bash
-cd claude-code-zh-cn
-./uninstall.sh
-```
-
-精准移除插件注入的设置，保留你的其他配置不变。
+</details>
 
 ## 项目结构
 
@@ -113,6 +178,7 @@ cd claude-code-zh-cn
 claude-code-zh-cn/
 ├── README.md                ← 你在这里
 ├── LICENSE                  ← MIT
+├── CHANGELOG.md             ← 版本变更记录
 ├── install.sh               ← 一键安装
 ├── uninstall.sh             ← 一键卸载（精准删除，不丢配置）
 ├── patch-cli.sh             ← CLI Patch 脚本（内容匹配，跨版本稳定）
@@ -132,34 +198,6 @@ claude-code-zh-cn/
     └── zh-CN.json           ← 187 个中文动词
 ```
 
-## 技术原理
-
-<details>
-<summary>展开看原理</summary>
-
-Claude Code CLI 是一个 13MB 的单文件压缩包（`cli.js`），所有 UI 文字硬编码其中，没有 i18n 基础设施。本项目通过四层机制实现中文化：
-
-**Layer 1 — 内置设置**（稳定，更新后不丢失）
-- `language`: 控制 AI 回复语言
-- `spinnerTipsOverride`: 替换等待提示文字
-- `spinnerVerbs`: 替换 spinner 动词
-
-**Layer 2 — Hook 系统**（稳定，更新后不丢失）
-- `SessionStart`: 会话启动时注入中文上下文指令 + 检测版本自动重 patch
-- `Notification`: 拦截系统通知并翻译
-
-**Layer 3 — 插件系统**（稳定，更新后不丢失）
-- 标准 Claude Code 插件格式
-- 提供 Chinese Output Style
-
-**Layer 4 — CLI Patch**（自动维护，更新后自动重 patch）
-- 基于 Node.js 的内容匹配，不依赖变量名，跨版本稳定
-- 替换 `cli.js` 中的硬编码文字（耗时动词、/btw、/clear、时间单位等）
-- `session-start` hook 检测版本变更，自动重新 patch
-- 有版本校验的备份机制，`uninstall.sh` 可还原
-
-</details>
-
 ## 自定义
 
 想调整翻译？直接编辑对应的 JSON 文件：
@@ -173,6 +211,38 @@ vim verbs/zh-CN.json
 ```
 
 编辑完后重新运行 `./install.sh` 即可生效。
+
+## FAQ
+
+<details>
+<summary><b>Claude Code 更新后会失效吗？</b></summary>
+
+Layer 1~3（设置、Hook、插件）完全不受影响。Layer 4（CLI Patch）会在更新后首次启动时自动检测版本变更并重新 patch，你不需要做任何事情。
+</details>
+
+<details>
+<summary><b>会不会破坏 Claude Code 原有功能？</b></summary>
+
+不会。安装脚本在修改任何文件前都会先备份，且所有 patch 都是纯文字替换。如果有问题，运行 `./uninstall.sh` 一键恢复。
+</details>
+
+<details>
+<summary><b>支持哪些系统？</b></summary>
+
+macOS 和 Linux。需要 Node.js、Python 3。可选依赖 jq（用于更精准的 JSON 合并）。
+</details>
+
+<details>
+<summary><b>能自定义翻译吗？</b></summary>
+
+可以！编辑 `tips/zh-CN.json` 和 `verbs/zh-CN.json`，然后重新运行 `./install.sh` 即可。
+</details>
+
+<details>
+<summary><b>和 VS Code 扩展的中文化项目有什么区别？</b></summary>
+
+本项目是**终端 CLI** 的中文化，不依赖 VS Code。[zstings/claude-code-zh-cn](https://github.com/zstings/claude-code-zh-cn) 是 Claude Code VS Code 扩展的汉化，两者互补。
+</details>
 
 ## 贡献
 
@@ -190,6 +260,22 @@ vim verbs/zh-CN.json
 
 - UI 字符串提取自 [Claude Code](https://github.com/anthropics/claude-code)
 - 灵感来自 [zstings/claude-code-zh-cn](https://github.com/zstings/claude-code-zh-cn)（Claude Code VS Code 扩展中文汉化）
+
+---
+
+## English
+
+**claude-code-zh-cn** is a Simplified Chinese localization plugin for [Claude Code CLI](https://github.com/anthropics/claude-code).
+
+It translates 187 spinner verbs, 41 spinner tips, notification messages, response time display, and more — all without modifying upstream code. After Claude Code updates, the plugin automatically re-patches on next session start.
+
+```bash
+git clone https://github.com/taekchef/claude-code-zh-cn.git
+cd claude-code-zh-cn
+./install.sh
+```
+
+See full documentation above (in Chinese). PRs and issues welcome!
 
 ---
 
