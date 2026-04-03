@@ -29,7 +29,7 @@
 ```
 
 ```
-  琢磨了 1m 23s
+  琢磨了 1分23秒
 ```
 
 187 个趣味 spinner 动词，41 条中文提示，回复耗时中文化，AI 默认中文回复。装完即用。
@@ -60,7 +60,7 @@
 | 中文上下文注入 | - | SessionStart Hook |
 | 通知翻译 | 6 条 | Notification Hook |
 | 输出风格 | - | Chinese Output Style |
-| 回复耗时动词 | 8 个 | CLI Patch（琢磨了、搞定了...） |
+| 回复耗时动词 | 8 个 | CLI Patch（琢磨了、忙活了...） |
 | /btw /clear 提示 | 2 条 | CLI Patch |
 | Tip/回顾/提醒文字 | 3 处 | CLI Patch |
 
