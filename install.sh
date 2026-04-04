@@ -50,8 +50,20 @@ fi
 cp "$SETTINGS_FILE" "$BACKUP_FILE"
 echo -e "${GREEN}已备份 settings.json → ${BACKUP_FILE}${NC}"
 
-# 读取 overlay
+# 读取基础 overlay（language、spinnerTipsEnabled）
 OVERLAY_CONTENT=$(cat "$OVERLAY_FILE")
+
+# 动态读取 verbs 和 tips（单一数据源，不维护两份数据）
+VERBS_CONTENT=$(cat "$SCRIPT_DIR/verbs/zh-CN.json")
+TIPS_CONTENT=$(cat "$SCRIPT_DIR/tips/zh-CN.json")
+OVERLAY_CONTENT=$(ZH_CN_BASE="$OVERLAY_CONTENT" ZH_CN_VERBS="$VERBS_CONTENT" ZH_CN_TIPS="$TIPS_CONTENT" node -e "
+const base = JSON.parse(process.env.ZH_CN_BASE);
+const verbs = JSON.parse(process.env.ZH_CN_VERBS);
+const tips = JSON.parse(process.env.ZH_CN_TIPS);
+base.spinnerVerbs = verbs;
+base.spinnerTipsOverride = { excludeDefault: true, tips: tips.tips.map(t => t.text) };
+process.stdout.write(JSON.stringify(base));
+")
 
 # 合并 settings
 if $USE_JQ; then

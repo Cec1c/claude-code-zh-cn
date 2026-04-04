@@ -19,16 +19,17 @@ echo ""
 # 精准移除插件注入的 key（保留用户其他配置）
 if [ -f "$SETTINGS_FILE" ]; then
     if command -v jq &>/dev/null; then
-        jq 'del(.language) | del(.spinnerTipsOverride) | del(.spinnerVerbs)' "$SETTINGS_FILE" > "${SETTINGS_FILE}.tmp" && mv "${SETTINGS_FILE}.tmp" "$SETTINGS_FILE"
+        jq 'del(.language) | del(.spinnerTipsEnabled) | del(.spinnerTipsOverride) | del(.spinnerVerbs)' "$SETTINGS_FILE" > "${SETTINGS_FILE}.tmp" && mv "${SETTINGS_FILE}.tmp" "$SETTINGS_FILE"
         echo -e "${GREEN}已从 settings.json 移除中文设置（保留其他配置）${NC}"
     elif command -v python3 &>/dev/null; then
-        python3 -c "
-import json
-with open('$SETTINGS_FILE', 'r') as f:
+        ZH_CN_SETTINGS="$SETTINGS_FILE" python3 -c "
+import json, os
+sf = os.environ['ZH_CN_SETTINGS']
+with open(sf, 'r') as f:
     s = json.load(f)
-for k in ['language', 'spinnerTipsOverride', 'spinnerVerbs']:
+for k in ['language', 'spinnerTipsEnabled', 'spinnerTipsOverride', 'spinnerVerbs']:
     s.pop(k, None)
-with open('$SETTINGS_FILE', 'w') as f:
+with open(sf, 'w') as f:
     json.dump(s, f, indent=2, ensure_ascii=False)
     f.write('\n')
 "
@@ -36,6 +37,7 @@ with open('$SETTINGS_FILE', 'w') as f:
     else
         echo -e "${YELLOW}请手动编辑 $SETTINGS_FILE 移除以下字段：${NC}"
         echo "  - language"
+        echo "  - spinnerTipsEnabled"
         echo "  - spinnerTipsOverride"
         echo "  - spinnerVerbs"
     fi
