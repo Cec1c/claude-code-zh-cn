@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // patch-cli.js - cli.js 硬编码文字中文 patch（安全版）
-// 只替换 JavaScript 双引号字符串字面量内的文字，避免破坏代码标识符
+// 逐条翻译：对每条翻译用正则匹配 "..." 内的目标文本，安全替换
 // 被 patch-cli.sh 调用
 
 const fs = require("fs");
@@ -87,71 +87,53 @@ if (markerIdx !== -1) {
     }
 }
 
-// === 安全批量翻译：只在双引号字符串字面量内替换 ===
+// === 逐条翻译：用正则匹配双引号字符串内的目标文本 ===
 //
-// 为什么只处理双引号（"）：
-// - 混淆后的 cli.js 几乎只用 " 作为字符串引号
-// - ' 会出现在注释和缩写中（如 "We're"），导致解析器失步
-// - ` 模板字符串中的 ${...} 需要额外处理，增加复杂度和出错风险
-// - 只处理 " 覆盖了绝大多数 UI 文字，且安全可靠
+// 原理：对每条翻译 { en, zh }，构建正则：
+//   /"([^"]*?)EN_TEXT([^"]*?)"/g
+// 匹配双引号字符串字面量中包含英文文本的位置，
+// 然后在回调中替换 en→zh。
+//
+// 这样做的好处：
+// 1. 不需要全局段解析器（避免正则/除法歧义、模板字符串干扰）
+// 2. 每条翻译独立处理，互不影响
+// 3. 正则 `[^"]*` 确保只在完整双引号字符串内匹配
+// 4. 反引号模板和正则字面量中的文本不会被匹配（因为它们不以 " 包裹）
+//
+// 限制：
+// - 不翻译反引号模板中的文本（22 条在模板中，暂不覆盖）
+// - 不翻译字符串内有转义引号 \" 的情况（cli.js 极少出现）
 
-const segs = [];
-{
-    let i = 0;
-    while (i < s.length) {
-        const qPos = s.indexOf('"', i);
-        if (qPos < 0) {
-            if (i < s.length) segs.push([0, s.substring(i)]);
-            break;
-        }
-        // 引号前的代码段
-        if (qPos > i) segs.push([0, s.substring(i, qPos)]);
-
-        // 找匹配的结束双引号（处理转义 \"）
-        let esc = false, end = -1;
-        for (let j = qPos + 1; j < s.length; j++) {
-            if (esc) { esc = false; continue; }
-            if (s[j] === '\\') { esc = true; continue; }
-            if (s[j] === '"') { end = j; break; }
-        }
-        if (end < 0) {
-            // 未终止的字符串 → 当作代码处理
-            segs.push([0, s.substring(qPos)]);
-            break;
-        }
-
-        // 字符串段（含前后引号）
-        segs.push([1, s.substring(qPos, end + 1)]);
-        i = end + 1;
-    }
-}
-
-// 在字符串段内应用翻译（按长度降序，避免子串冲突）
 if (translationsFile && fs.existsSync(translationsFile)) {
     const translations = JSON.parse(fs.readFileSync(translationsFile, "utf8"));
+    // 按长度降序，避免短串先被替换导致长串匹配失败
     translations.sort((a, b) => b.en.length - a.en.length);
 
     for (const { en, zh } of translations) {
-        // 跳过 no-op 条目
         if (en === zh) continue;
 
+        // 跳过包含正则特殊字符过多的条目（可能导致正则构建失败）
+        // 对 en 文本进行正则转义
+        const enEscaped = en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // 正则：匹配 "（不含引号的任意内容）en文本（不含引号的任意内容）"
+        // [^"\\]* 匹配不含引号和反斜杠的字符（简化处理，忽略 \" 转义引号的情况）
+        const regex = new RegExp('("[^"\\\\]*' + enEscaped + '[^"\\\\]*")', 'g');
+
         let hit = false;
-        for (const seg of segs) {
-            if (seg[0] === 1 && seg[1].includes(en)) {
-                seg[1] = seg[1].split(en).join(zh);
-                hit = true;
-            }
-        }
+        s = s.replace(regex, (match) => {
+            const replaced = match.substring(0, match.length - 1)
+                .split(en).join(zh) + '"';
+            if (replaced !== match) hit = true;
+            return replaced;
+        });
+
         if (hit) count++;
     }
 }
 
-// 从段重建源码
-s = segs.map(seg => seg[1]).join("");
-
 // === 只有实际改变文件内容才写入 ===
 if (s === original) {
-    // 文件无变化，不写入
     console.log("0");
     process.exit(0);
 }
