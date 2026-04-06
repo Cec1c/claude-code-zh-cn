@@ -13,10 +13,14 @@ if [ -z "$CLI_FILE" ] || [ ! -f "$CLI_FILE" ]; then
     exit 0
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TRANSLATIONS_FILE="$SCRIPT_DIR/cli-translations.json"
+
 # 执行 patch
 node -e '
 const fs = require("fs");
 const f = process.argv[1];
+const translationsFile = process.argv[2];
 let s = fs.readFileSync(f, "utf8");
 let count = 0;
 
@@ -28,6 +32,8 @@ function tryReplace(from, to) {
     }
     return false;
 }
+
+// === 特殊 patch（逻辑无法简单用 en→zh 替代）===
 
 // 1. 过去式动词（直接用 UTF-8 字符）
 tryReplace(
@@ -119,10 +125,30 @@ if (markerIdx !== -1) {
     }
 }
 
+// === 批量翻译（从 cli-translations.json 读取，按长度降序避免子串冲突）===
+if (translationsFile && fs.existsSync(translationsFile)) {
+    const translations = JSON.parse(fs.readFileSync(translationsFile, "utf8"));
+    // 按英文字符串长度降序排列，长的先替换，避免短字符串先被替换导致长字符串匹配失败
+    translations.sort((a, b) => b.en.length - a.en.length);
+    let jsonCount = 0;
+    translations.forEach(({ en, zh }) => {
+        if (tryReplace(en, zh)) {
+            jsonCount++;
+        }
+    });
+    if (jsonCount > 0) {
+        console.error(`  JSON translations applied: ${jsonCount}/${translations.length}`);
+    }
+}
+
+// === 原子写入（保留文件权限，兼容 Windows）===
 const tmp = f + ".zh-cn-tmp";
 fs.writeFileSync(tmp, s);
 const origMode = fs.statSync(f).mode;
 fs.chmodSync(tmp, origMode);
+if (process.platform === "win32") {
+    try { fs.unlinkSync(f); } catch (e) {}
+}
 fs.renameSync(tmp, f);
 console.log(count);
-' "$CLI_FILE" 2>/dev/null
+' "$CLI_FILE" "$TRANSLATIONS_FILE" 2>/dev/null

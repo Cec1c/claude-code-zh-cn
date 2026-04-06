@@ -20,6 +20,15 @@ NC='\033[0m'
 echo -e "${BLUE}=== Claude Code 中文本地化插件 安装 ===${NC}"
 echo ""
 
+# Windows WSL 检测
+if [ -f /proc/version ] && grep -qi "microsoft" /proc/version 2>/dev/null; then
+    echo -e "${GREEN}检测到 WSL 环境，继续安装${NC}"
+elif [ -f /proc/version ]; then
+    echo -e "${YELLOW}提示：未检测到 WSL 环境。如果你在 Windows 上使用 Git Bash 或 PowerShell，${NC}"
+    echo -e "${YELLOW}请切换到 WSL 终端后运行此脚本。Claude Code 仅通过 WSL 在 Windows 上运行。${NC}"
+    echo ""
+fi
+
 # 检查依赖
 if ! command -v node &>/dev/null; then
     echo -e "${RED}错误：需要 node，请先安装${NC}"

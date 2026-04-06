@@ -5,6 +5,7 @@ Claude Code CLI 中文本地化插件。
 ## 项目结构
 
 - `patch-cli.sh` — CLI 硬编码文字 patch（被 install.sh 和 session-start hook 调用）
+- `cli-translations.json` — 569 条 UI 翻译对照表（英文→中文），patch-cli.sh 从此文件读取
 - `install.sh` / `uninstall.sh` — 安装/卸载脚本
 - `settings-overlay.json` — 合并到 settings.json 的中文设置（只含 language、spinnerTipsEnabled 等独有配置，**不含** verbs 和 tips 数据）
 - `plugin/` — 插件（manifest、hooks、output-styles）
@@ -26,9 +27,11 @@ Claude Code CLI 中文本地化插件。
 ## 技术要点
 
 - patch-cli.sh 使用**内容匹配**（匹配英文原文），不依赖变量名，跨版本稳定
+- 从 `cli-translations.json` 批量读取翻译，按字符串长度**降序**替换（长字符串优先，避免子串冲突）
 - cli.js 里的 `…` 是真实 U+2026 字符，不是 `\u2026` 转义序列
 - node -e 在 bash 单引号里，用 Unicode 转义（`\uXXXX`）写中文，避免引号嵌套问题
 - Hook 等技术术语保留英文（Hook 不是"钩子"，同 API、PR）
+- Windows 兼容：NTFS 上 `fs.renameSync` 先 unlink 再 rename
 
 ## 版本发布流程
 
