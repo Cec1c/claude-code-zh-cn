@@ -1,159 +1,167 @@
 [
   {
-    "en": "Updating…",
-    "zh": "更新中…"
+    "en": "Claude is now exploring and designing an implementation approach.",
+    "zh": "Claude 正在探索和设计实现方案。"
   },
   {
-    "en": "Checking for updates",
-    "zh": "检查更新"
+    "en": "Export the current conversation to a file or clipboard",
+    "zh": "导出当前对话到文件或剪贴板"
   },
   {
-    "en": "Stashing changes...",
-    "zh": "暂存变更中..."
+    "en": "Context limit reached · /compact or /clear to continue",
+    "zh": "上下文已满 · /compact 或 /clear 继续"
   },
   {
-    "en": "Removing worktree…",
-    "zh": "移除 worktree…"
+    "en": "Successfully logged out from your Anthropic account.",
+    "zh": "已成功登出你的 Anthropic 账号。"
   },
   {
-    "en": "Keeping worktree…",
-    "zh": "保留 worktree…"
+    "en": "Press Ctrl+C to exit and start a new conversation.",
+    "zh": "按 Ctrl+C 退出并开始新对话。"
   },
   {
-    "en": "Auto-updating…",
-    "zh": "自动更新中…"
+    "en": "Browser didn't open? Use the url below to sign in",
+    "zh": "浏览器没有打开？使用下面的链接登录"
   },
   {
-    "en": "Answering...",
-    "zh": "回答中..."
+    "en": "This conversation is from a different directory.",
+    "zh": "此对话来自不同的目录。"
   },
   {
-    "en": "Voice: processing…",
-    "zh": "语音：处理中…"
+    "en": "Edit and press Enter to retry, or Esc to cancel",
+    "zh": "编辑后按 Enter 重试，或 Esc 取消"
   },
   {
-    "en": "In progress… · ",
-    "zh": "进行中… · "
+    "en": "Amazon Bedrock, Microsoft Foundry, or Vertex AI",
+    "zh": "Amazon Bedrock、Microsoft Foundry 或 Vertex AI"
   },
   {
-    "en": "Unknown error",
-    "zh": "未知错误"
+    "en": "Clear conversation history and free up context",
+    "zh": "清除对话历史并释放上下文"
   },
   {
-    "en": "Check your internet connection",
-    "zh": "请检查网络连接"
+    "en": "Set the prompt bar color for this session",
+    "zh": "设置本次会话的提示栏颜色"
   },
   {
-    "en": "Failed to install ",
-    "zh": "安装失败 "
+    "en": "Enable file checkpointing for code rewind",
+    "zh": "启用文件检查点用于代码回退"
   },
   {
-    "en": "File not found",
-    "zh": "文件未找到"
+    "en": "Unable to connect to Anthropic services",
+    "zh": "无法连接 Anthropic 服务"
   },
   {
-    "en": "Log in to Claude",
-    "zh": "登录 Claude"
+    "en": "and tell Claude what to do differently",
+    "zh": "并告诉 Claude 换种做法"
   },
   {
-    "en": "Login with Claude account",
-    "zh": "使用 Claude 账号登录"
+    "en": "Enable voice dictation (hold-to-talk)",
+    "zh": "启用语音听写（按住说话）"
   },
   {
-    "en": "Try again",
-    "zh": "重试"
+    "en": "No conversations found to resume.",
+    "zh": "没有找到可恢复的对话。"
   },
   {
-    "en": "Learn more",
-    "zh": "了解更多"
-  },
-  {
-    "en": "Copy to clipboard",
-    "zh": "复制到剪贴板"
-  },
-  {
-    "en": "Save to file",
-    "zh": "保存到文件"
-  },
-  {
-    "en": "Export Conversation",
-    "zh": "导出对话"
-  },
-  {
-    "en": "Stash changes and continue",
-    "zh": "暂存变更并继续"
-  },
-  {
-    "en": "Yes, enter plan mode",
-    "zh": "是，进入计划模式"
-  },
-  {
-    "en": "No, start implementing now",
-    "zh": "否，立即开始实施"
-  },
-  {
-    "en": "Auto mode",
-    "zh": "自动模式"
-  },
-  {
-    "en": "Ready to code?",
-    "zh": "准备好写代码了吗？"
-  },
-  {
-    "en": "In plan mode, Claude will:",
-    "zh": "在计划模式下，Claude 将："
-  },
-  {
-    "en": "Here is Claude's plan:",
-    "zh": "以下是 Claude 的计划："
-  },
-  {
-    "en": "Plan saved!",
-    "zh": "计划已保存！"
-  },
-  {
-    "en": "Do you want to proceed?",
-    "zh": "要继续吗？"
-  },
-  {
-    "en": "Would you like to proceed?",
-    "zh": "要继续吗？"
-  },
-  {
-    "en": "Type something…",
-    "zh": "输入内容…"
-  },
-  {
-    "en": "Select content to copy:",
-    "zh": "选择要复制的内容："
-  },
-  {
-    "en": "Select export method:",
-    "zh": "选择导出方式："
-  },
-  {
-    "en": "Describe the issue below:",
-    "zh": "在下方描述问题："
-  },
-  {
-    "en": "What do you want to do?",
-    "zh": "你想做什么？"
-  },
-  {
-    "en": "Enter plan mode?",
-    "zh": "进入计划模式？"
-  },
-  {
-    "en": "Exit plan mode?",
-    "zh": "退出计划模式？"
+    "en": "Auto-compact when context is full",
+    "zh": "上下文满时自动压缩"
   },
   {
     "en": "Do you want to make this edit to",
     "zh": "要对此进行编辑吗"
   },
   {
-    "en": "Esc to cancel",
-    "zh": "Esc 取消"
+    "en": "Conversation copied to clipboard",
+    "zh": "对话已复制到剪贴板"
+  },
+  {
+    "en": "Print detailed performance stats",
+    "zh": "打印详细性能统计"
+  },
+  {
+    "en": "Claude is waiting for your input",
+    "zh": "Claude 在等待你的输入"
+  },
+  {
+    "en": "Do you want to use this API key?",
+    "zh": "要使用此 API key 吗？"
+  },
+  {
+    "en": "Enter to confirm · Esc to cancel",
+    "zh": "Enter 确认 · Esc 取消"
+  },
+  {
+    "en": "and tell Claude what to do next",
+    "zh": "并告诉 Claude 接下来做什么"
+  },
+  {
+    "en": "Switched to worktree on branch ",
+    "zh": "已切换到 worktree 分支 "
+  },
+  {
+    "en": "Save anyway (skip verification)",
+    "zh": "仍然保存（跳过验证）"
+  },
+  {
+    "en": "Check your internet connection",
+    "zh": "请检查网络连接"
+  },
+  {
+    "en": "Create or list command aliases",
+    "zh": "创建或列出命令别名"
+  },
+  {
+    "en": "Enter to confirm · Esc to skip",
+    "zh": "Enter 确认 · Esc 跳过"
+  },
+  {
+    "en": "Yes, use recommended settings",
+    "zh": "是，使用推荐设置"
+  },
+  {
+    "en": "(Command copied to clipboard)",
+    "zh": "（命令已复制到剪贴板）"
+  },
+  {
+    "en": "Submit Feedback / Bug Report",
+    "zh": "提交反馈 / 报告问题"
+  },
+  {
+    "en": "This may take a few seconds.",
+    "zh": "这可能需要几秒。"
+  },
+  {
+    "en": "Opening browser to sign in…",
+    "zh": "正在打开浏览器登录…"
+  },
+  {
+    "en": "Stash changes and continue",
+    "zh": "暂存变更并继续"
+  },
+  {
+    "en": "No, start implementing now",
+    "zh": "否，立即开始实施"
+  },
+  {
+    "en": "In plan mode, Claude will:",
+    "zh": "在计划模式下，Claude 将："
+  },
+  {
+    "en": "Would you like to proceed?",
+    "zh": "要继续吗？"
+  },
+  {
+    "en": "Show detailed debug output",
+    "zh": "显示详细调试输出"
+  },
+  {
+    "en": "Login with Claude account",
+    "zh": "使用 Claude 账号登录"
+  },
+  {
+    "en": "Describe the issue below:",
+    "zh": "在下方描述问题："
   },
   {
     "en": "Ctrl+d to show debug info",
@@ -164,91 +172,375 @@
     "zh": "Ctrl-D 隐藏调试信息"
   },
   {
-    "en": "Output style",
-    "zh": "输出风格"
-  },
-  {
     "en": "Always copy full response",
     "zh": "始终复制完整回复"
   },
   {
-    "en": "Bug Report",
-    "zh": "报告问题"
+    "en": "Enable todo/task tracking",
+    "zh": "启用待办/任务追踪"
   },
   {
-    "en": "Submit Feedback / Bug Report",
-    "zh": "提交反馈 / 报告问题"
+    "en": "Checking connectivity...",
+    "zh": "检查连接中..."
+  },
+  {
+    "en": "Failed to resume agent: ",
+    "zh": "恢复 Agent 失败："
+  },
+  {
+    "en": "Yes, I trust this folder",
+    "zh": "是，我信任此文件夹"
+  },
+  {
+    "en": "Choose different models…",
+    "zh": "选择其他模型…"
+  },
+  {
+    "en": "Claude can make mistakes",
+    "zh": "Claude 可能会犯错"
+  },
+  {
+    "en": "Login successful. Press ",
+    "zh": "登录成功。按 "
+  },
+  {
+    "en": "Do you want to proceed?",
+    "zh": "要继续吗？"
+  },
+  {
+    "en": "Select content to copy:",
+    "zh": "选择要复制的内容："
+  },
+  {
+    "en": "What do you want to do?",
+    "zh": "你想做什么？"
+  },
+  {
+    "en": "File must be read first",
+    "zh": "必须先读取文件"
+  },
+  {
+    "en": "Here is Claude's plan:",
+    "zh": "以下是 Claude 的计划："
   },
   {
     "en": "Update available! Run:",
     "zh": "有更新！运行："
   },
   {
-    "en": "Remote session",
-    "zh": "远程会话"
+    "en": "Validating repository…",
+    "zh": "验证仓库中…"
   },
   {
-    "en": "Clear conversation history and free up context",
-    "zh": "清除对话历史并释放上下文"
+    "en": "Loading conversations…",
+    "zh": "加载对话中…"
   },
   {
-    "en": "Conversation copied to clipboard",
-    "zh": "对话已复制到剪贴板"
+    "en": "Resuming conversation…",
+    "zh": "恢复对话中…"
   },
   {
-    "en": "Export the current conversation to a file or clipboard",
-    "zh": "导出当前对话到文件或剪贴板"
+    "en": "Unknown error occurred",
+    "zh": "发生未知错误"
   },
   {
-    "en": "Print detailed performance stats",
-    "zh": "打印详细性能统计"
+    "en": "Error editing notebook",
+    "zh": "编辑笔记本出错"
   },
   {
-    "en": "Set the prompt bar color for this session",
-    "zh": "设置本次会话的提示栏颜色"
+    "en": "Config change rejected",
+    "zh": "配置更改被拒绝"
   },
   {
-    "en": "Create or list command aliases",
-    "zh": "创建或列出命令别名"
+    "en": "Welcome to Claude Code",
+    "zh": "欢迎使用 Claude Code"
+  },
+  {
+    "en": "Type a different name…",
+    "zh": "输入不同的名称…"
+  },
+  {
+    "en": "Select export method:",
+    "zh": "选择导出方式："
+  },
+  {
+    "en": "Error searching files",
+    "zh": "搜索文件出错"
+  },
+  {
+    "en": "Default (recommended)",
+    "zh": "默认（推荐）"
+  },
+  {
+    "en": "Checking for updates",
+    "zh": "检查更新"
+  },
+  {
+    "en": "Yes, enter plan mode",
+    "zh": "是，进入计划模式"
+  },
+  {
+    "en": "Select login method:",
+    "zh": "选择登录方式："
+  },
+  {
+    "en": "Stashing changes...",
+    "zh": "暂存变更中..."
+  },
+  {
+    "en": "Export Conversation",
+    "zh": "导出对话"
   },
   {
     "en": "Create a git commit",
     "zh": "创建 git commit"
   },
   {
-    "en": "OAuth token",
-    "zh": "OAuth 令牌"
+    "en": "No changes detected",
+    "zh": "未检测到变更"
   },
   {
-    "en": "Successfully logged out from your Anthropic account.",
-    "zh": "已成功登出你的 Anthropic 账号。"
+    "en": "Sonnet (1M context)",
+    "zh": "Sonnet（1M 上下文）"
+  },
+  {
+    "en": "[awaiting approval]",
+    "zh": "[等待批准]"
+  },
+  {
+    "en": "Removing worktree…",
+    "zh": "移除 worktree…"
+  },
+  {
+    "en": "Voice: processing…",
+    "zh": "语音：处理中…"
+  },
+  {
+    "en": "Failed to install ",
+    "zh": "安装失败 "
+  },
+  {
+    "en": "Error editing file",
+    "zh": "编辑文件出错"
+  },
+  {
+    "en": "Error writing file",
+    "zh": "写入文件出错"
+  },
+  {
+    "en": "Bypass Permissions",
+    "zh": "跳过权限检查"
+  },
+  {
+    "en": "Manage permissions",
+    "zh": "管理权限"
+  },
+  {
+    "en": "Keeping worktree…",
+    "zh": "保留 worktree…"
+  },
+  {
+    "en": "Copy to clipboard",
+    "zh": "复制到剪贴板"
+  },
+  {
+    "en": "Opus (1M context)",
+    "zh": "Opus（1M 上下文）"
+  },
+  {
+    "en": "Plan to implement",
+    "zh": "待实施计划"
+  },
+  {
+    "en": "MCP documentation",
+    "zh": "MCP 文档"
+  },
+  {
+    "en": "Log in to Claude",
+    "zh": "登录 Claude"
+  },
+  {
+    "en": "Enter plan mode?",
+    "zh": "进入计划模式？"
+  },
+  {
+    "en": "Key binding mode",
+    "zh": "按键绑定模式"
+  },
+  {
+    "en": "Teleport to Repo",
+    "zh": "传送到仓库"
+  },
+  {
+    "en": "In progress… · ",
+    "zh": "进行中… · "
+  },
+  {
+    "en": "Type something…",
+    "zh": "输入内容…"
+  },
+  {
+    "en": "Exit plan mode?",
+    "zh": "退出计划模式？"
+  },
+  {
+    "en": "No code changes",
+    "zh": "无代码变更"
+  },
+  {
+    "en": "Go back and fix",
+    "zh": "返回修复"
+  },
+  {
+    "en": "Auto-updating…",
+    "zh": "自动更新中…"
+  },
+  {
+    "en": "File not found",
+    "zh": "文件未找到"
+  },
+  {
+    "en": "Ready to code?",
+    "zh": "准备好写代码了吗？"
+  },
+  {
+    "en": "Remote session",
+    "zh": "远程会话"
+  },
+  {
+    "en": "Settings Error",
+    "zh": "设置错误"
+  },
+  {
+    "en": "Opus Plan Mode",
+    "zh": "Opus 计划模式"
+  },
+  {
+    "en": "Security guide",
+    "zh": "安全指南"
+  },
+  {
+    "en": "Unknown error",
+    "zh": "未知错误"
+  },
+  {
+    "en": "Esc to cancel",
+    "zh": "Esc 取消"
+  },
+  {
+    "en": "Yes, I accept",
+    "zh": "是，我接受"
+  },
+  {
+    "en": "Answering...",
+    "zh": "回答中..."
+  },
+  {
+    "en": "Save to file",
+    "zh": "保存到文件"
+  },
+  {
+    "en": "Output style",
+    "zh": "输出风格"
   },
   {
     "en": "(No content)",
     "zh": "（无内容）"
   },
   {
+    "en": "Logged in as",
+    "zh": "已登录为"
+  },
+  {
+    "en": "Custom model",
+    "zh": "自定义模型"
+  },
+  {
+    "en": "Auto-compact",
+    "zh": "自动压缩"
+  },
+  {
+    "en": "Login method",
+    "zh": "登录方式"
+  },
+  {
+    "en": "(No changes)",
+    "zh": "（无变更）"
+  },
+  {
+    "en": "Plan saved!",
+    "zh": "计划已保存！"
+  },
+  {
+    "en": "OAuth token",
+    "zh": "OAuth 令牌"
+  },
+  {
+    "en": "MCP servers",
+    "zh": "MCP 服务器"
+  },
+  {
+    "en": "Learn more",
+    "zh": "了解更多"
+  },
+  {
+    "en": "Bug Report",
+    "zh": "报告问题"
+  },
+  {
     "en": "(required)",
     "zh": "（必填）"
   },
   {
-    "en": "and tell Claude what to do differently",
-    "zh": "并告诉 Claude 换种做法"
+    "en": "[stopping]",
+    "zh": "[停止中]"
   },
   {
-    "en": "and tell Claude what to do next",
-    "zh": "并告诉 Claude 接下来做什么"
+    "en": "Updating…",
+    "zh": "更新中…"
   },
   {
-    "en": "Edit and press Enter to retry, or Esc to cancel",
-    "zh": "编辑后按 Enter 重试，或 Esc 取消"
+    "en": "Try again",
+    "zh": "重试"
   },
   {
-    "en": "No changes detected",
-    "zh": "未检测到变更"
+    "en": "Auto mode",
+    "zh": "自动模式"
   },
   {
-    "en": "No code changes",
-    "zh": "无代码变更"
+    "en": "Fetching…",
+    "zh": "获取中…"
+  },
+  {
+    "en": "Retrying…",
+    "zh": "重试中…"
+  },
+  {
+    "en": "Plan Mode",
+    "zh": "计划模式"
+  },
+  {
+    "en": "[Warning]",
+    "zh": "[警告]"
+  },
+  {
+    "en": "Running…",
+    "zh": "运行中…"
+  },
+  {
+    "en": "Failed: ",
+    "zh": "失败："
+  },
+  {
+    "en": "No, exit",
+    "zh": "否，退出"
+  },
+  {
+    "en": "Go back",
+    "zh": "返回"
+  },
+  {
+    "en": "[Image]",
+    "zh": "[图片]"
   }
 ]

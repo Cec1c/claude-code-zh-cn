@@ -9,7 +9,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-taekchef%2Fclaude--code--zh--cn-blue?logo=github)](https://github.com/taekchef/claude-code-zh-cn)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-%E2%89%A52.1.x-green)](https://github.com/anthropics/claude-code)
-[![Version](https://img.shields.io/badge/Version-1.2.2-blue)](./CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.2.3-blue)](./CHANGELOG.md)
 
 **3 条命令安装 · 更新后自动修复 · 卸载不丢配置**
 
@@ -128,7 +128,7 @@ cd claude-code-zh-cn
 | 中文上下文注入 | - | SessionStart Hook |
 | 通知翻译 | 6 条 | Notification Hook |
 | 输出风格 | - | Chinese Output Style |
-| UI 文字全量中文化 | 63 条 | CLI Patch（安全段解析器，只在双引号字符串内替换） |
+| UI 文字全量中文化 | 136 条 | CLI Patch（安全段解析器，只在双引号字符串内替换） |
 | 自动重 patch | - | 版本检测，更新后首次会话自动修复 |
 
 ## 技术原理
@@ -176,7 +176,7 @@ claude-code-zh-cn/
 ├── uninstall.sh             ← 一键卸载（精准删除，不丢配置）
 ├── patch-cli.sh             ← CLI Patch 入口脚本
 ├── patch-cli.js             ← CLI Patch 核心逻辑（段解析器 + 安全替换）
-├── cli-translations.json    ← 63 条 UI 翻译对照表
+├── cli-translations.json    ← 136 条 UI 翻译对照表
 ├── settings-overlay.json    ← 合并到 settings.json 的中文设置
 ├── plugin/
 │   ├── manifest.json        ← 插件清单
