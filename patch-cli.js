@@ -87,6 +87,17 @@ if (markerIdx !== -1) {
     }
 }
 
+// 4. 拆分字符串 patch（minifier 在 ' 处拆分字符串）
+// "Quick safety check:..." → 中文安全检查提示
+tryReplace(
+    '"Quick safety check: Is this a project you created or one you trust? (Like your own code, a well-known open source project, or work from your team). If not, take a moment to review what","\'","s in this folder first."',
+    '"安全检查：这是你自己创建或信任的项目吗？（比如你自己的代码、知名开源项目、或团队的工作）。如果不是，请先查看此文件夹中的内容。"'
+);
+tryReplace(
+    '"Claude Code","\'","ll be able to read, edit, and execute files here."',
+    '"Claude Code 将能在此目录中读取、编辑和执行文件。"'
+);
+
 // === 逐条翻译：用正则匹配双引号字符串内的目标文本 ===
 //
 // 原理：对每条翻译 { en, zh }，构建正则：
