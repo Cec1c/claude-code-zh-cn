@@ -104,6 +104,12 @@ tryReplace(
 tryReplace('," for ",', '," ",');
 tryReplace('"Idle for "', '"空闲 "');
 
+// 5b. 主 spinner 的 duration display（反引号模板字符串）
+// 原: `${bL} Worked for ${w3(Date.now()-V.startTime)}` → "烘焙了 Worked for 27分26秒"
+// 修: `${bL} ${w3(Date.now()-V.startTime)}` → "烘焙了 27分26秒"
+tryReplace(' Worked for ${w3(Date.now()-V.startTime)}', ' ${w3(Date.now()-V.startTime)}');
+tryReplace('${bL} Idle', '${bL} 空闲');
+
 // === 逐条翻译：用正则匹配双引号字符串内的目标文本 ===
 //
 // 原理：对每条翻译 { en, zh }，构建正则：
