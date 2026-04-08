@@ -542,5 +542,701 @@
   {
     "en": "[Image]",
     "zh": "[图片]"
+  },
+  {
+    "en": "Re-authenticate",
+    "zh": "重新认证"
+  },
+  {
+    "en": "Clear authentication",
+    "zh": "清除认证"
+  },
+  {
+    "en": "Update now",
+    "zh": "立即更新"
+  },
+  {
+    "en": "Not now",
+    "zh": "以后再说"
+  },
+  {
+    "en": "Never mind",
+    "zh": "算了"
+  },
+  {
+    "en": "Got it, thanks!",
+    "zh": "知道了，谢谢！"
+  },
+  {
+    "en": "Let's go!",
+    "zh": "开始吧！"
+  },
+  {
+    "en": "Show all",
+    "zh": "显示全部"
+  },
+  {
+    "en": "Notifications",
+    "zh": "通知"
+  },
+  {
+    "en": "Session ID",
+    "zh": "会话 ID"
+  },
+  {
+    "en": "Session name",
+    "zh": "会话名称"
+  },
+  {
+    "en": "Diff tool",
+    "zh": "Diff 工具"
+  },
+  {
+    "en": "Default region",
+    "zh": "默认区域"
+  },
+  {
+    "en": "API key",
+    "zh": "API 密钥"
+  },
+  {
+    "en": "Show tips",
+    "zh": "显示提示"
+  },
+  {
+    "en": "Reduce motion",
+    "zh": "减少动画"
+  },
+  {
+    "en": "Verbose output",
+    "zh": "详细输出"
+  },
+  {
+    "en": "Thinking mode",
+    "zh": "思考模式"
+  },
+  {
+    "en": "Prompt suggestions",
+    "zh": "提示建议"
+  },
+  {
+    "en": "Rewind code (checkpoints)",
+    "zh": "代码回退（检查点）"
+  },
+  {
+    "en": "Default permission mode",
+    "zh": "默认权限模式"
+  },
+  {
+    "en": "Copy on select",
+    "zh": "选中即复制"
+  },
+  {
+    "en": "Auto-update channel",
+    "zh": "自动更新频道"
+  },
+  {
+    "en": "Show turn duration",
+    "zh": "显示回合耗时"
+  },
+  {
+    "en": "Show PR status footer",
+    "zh": "显示 PR 状态栏"
+  },
+  {
+    "en": "Show status in terminal tab",
+    "zh": "在终端标签显示状态"
+  },
+  {
+    "en": "Terminal progress bar",
+    "zh": "终端进度条"
+  },
+  {
+    "en": "Use auto mode during plan",
+    "zh": "计划模式中使用自动模式"
+  },
+  {
+    "en": "Auto-connect to IDE (external terminal)",
+    "zh": "自动连接 IDE（外部终端）"
+  },
+  {
+    "en": "Auto-install IDE extension",
+    "zh": "自动安装 IDE 扩展"
+  },
+  {
+    "en": "Default teammate model",
+    "zh": "默认协作模型"
+  },
+  {
+    "en": "Enable Remote Control for all sessions",
+    "zh": "为所有会话启用远程控制"
+  },
+  {
+    "en": "External CLAUDE.md includes",
+    "zh": "外部 CLAUDE.md 引入"
+  },
+  {
+    "en": "What you see by default",
+    "zh": "默认显示内容"
+  },
+  {
+    "en": "Respect .gitignore in file picker",
+    "zh": "文件选择器遵循 .gitignore"
+  },
+  {
+    "en": "Setting sources",
+    "zh": "设置来源"
+  },
+  {
+    "en": "Dark mode",
+    "zh": "深色模式"
+  },
+  {
+    "en": "Light mode",
+    "zh": "浅色模式"
+  },
+  {
+    "en": "Dark mode (colorblind-friendly)",
+    "zh": "深色模式（色觉友好）"
+  },
+  {
+    "en": "Light mode (colorblind-friendly)",
+    "zh": "浅色模式（色觉友好）"
+  },
+  {
+    "en": "Dark mode (ANSI colors only)",
+    "zh": "深色模式（仅 ANSI 颜色）"
+  },
+  {
+    "en": "Light mode (ANSI colors only)",
+    "zh": "浅色模式（仅 ANSI 颜色）"
+  },
+  {
+    "en": "Project MCPs",
+    "zh": "项目 MCP"
+  },
+  {
+    "en": "User MCPs",
+    "zh": "用户 MCP"
+  },
+  {
+    "en": "Local MCPs",
+    "zh": "本地 MCP"
+  },
+  {
+    "en": "Enterprise MCPs",
+    "zh": "企业 MCP"
+  },
+  {
+    "en": "Built-in MCPs",
+    "zh": "内置 MCP"
+  },
+  {
+    "en": "View tools",
+    "zh": "查看工具"
+  },
+  {
+    "en": "MCP Servers:",
+    "zh": "MCP 服务器："
+  },
+  {
+    "en": "Individual Tools:",
+    "zh": "独立工具："
+  },
+  {
+    "en": "Project settings",
+    "zh": "项目设置"
+  },
+  {
+    "en": "Project settings (local)",
+    "zh": "项目设置（本地）"
+  },
+  {
+    "en": "User settings",
+    "zh": "用户设置"
+  },
+  {
+    "en": "Back to plugin list",
+    "zh": "返回插件列表"
+  },
+  {
+    "en": "Open homepage",
+    "zh": "打开主页"
+  },
+  {
+    "en": "View on GitHub",
+    "zh": "在 GitHub 查看"
+  },
+  {
+    "en": "Update marketplace",
+    "zh": "更新市场"
+  },
+  {
+    "en": "Remove marketplace",
+    "zh": "移除市场"
+  },
+  {
+    "en": "Configure options",
+    "zh": "配置选项"
+  },
+  {
+    "en": "View repository",
+    "zh": "查看仓库"
+  },
+  {
+    "en": "Open auto-memory folder",
+    "zh": "打开自动记忆文件夹"
+  },
+  {
+    "en": "Open team memory folder",
+    "zh": "打开团队记忆文件夹"
+  },
+  {
+    "en": "User agents",
+    "zh": "用户 Agent"
+  },
+  {
+    "en": "Project agents",
+    "zh": "项目 Agent"
+  },
+  {
+    "en": "Local agents",
+    "zh": "本地 Agent"
+  },
+  {
+    "en": "Managed agents",
+    "zh": "托管 Agent"
+  },
+  {
+    "en": "Plugin agents",
+    "zh": "插件 Agent"
+  },
+  {
+    "en": "CLI arg agents",
+    "zh": "CLI 参数 Agent"
+  },
+  {
+    "en": "Built-in agents",
+    "zh": "内置 Agent"
+  },
+  {
+    "en": "View agent",
+    "zh": "查看 Agent"
+  },
+  {
+    "en": "Edit agent",
+    "zh": "编辑 Agent"
+  },
+  {
+    "en": "Delete agent",
+    "zh": "删除 Agent"
+  },
+  {
+    "en": "Edit tools",
+    "zh": "编辑工具"
+  },
+  {
+    "en": "Edit model",
+    "zh": "编辑模型"
+  },
+  {
+    "en": "Edit color",
+    "zh": "编辑颜色"
+  },
+  {
+    "en": "Project (.claude/agents/)",
+    "zh": "项目（.claude/agents/）"
+  },
+  {
+    "en": "Personal (~/.claude/agents/)",
+    "zh": "个人（~/.claude/agents/）"
+  },
+  {
+    "en": "Morning (6-12)",
+    "zh": "上午（6-12）"
+  },
+  {
+    "en": "Afternoon (12-18)",
+    "zh": "下午（12-18）"
+  },
+  {
+    "en": "Evening (18-24)",
+    "zh": "晚上（18-24）"
+  },
+  {
+    "en": "Night (0-6)",
+    "zh": "深夜（0-6）"
+  },
+  {
+    "en": "Access key + secret",
+    "zh": "访问密钥 + 密钥"
+  },
+  {
+    "en": "Use credentials already in my environment",
+    "zh": "使用环境已有的凭证"
+  },
+  {
+    "en": "Anthropic base URL",
+    "zh": "Anthropic 基础 URL"
+  },
+  {
+    "en": "Bedrock base URL",
+    "zh": "Bedrock 基础 URL"
+  },
+  {
+    "en": "AWS profile (SSO or named profile)",
+    "zh": "AWS 配置（SSO 或命名配置）"
+  },
+  {
+    "en": "Bedrock API key (bearer token)",
+    "zh": "Bedrock API 密钥（Bearer 令牌）"
+  },
+  {
+    "en": "Microsoft Foundry base URL",
+    "zh": "Microsoft Foundry 基础 URL"
+  },
+  {
+    "en": "Microsoft Foundry resource",
+    "zh": "Microsoft Foundry 资源"
+  },
+  {
+    "en": "Vertex base URL",
+    "zh": "Vertex 基础 URL"
+  },
+  {
+    "en": "GCP project",
+    "zh": "GCP 项目"
+  },
+  {
+    "en": "Workspace ID",
+    "zh": "工作区 ID"
+  },
+  {
+    "en": "Additional CA cert(s)",
+    "zh": "额外 CA 证书"
+  },
+  {
+    "en": "mTLS client cert",
+    "zh": "mTLS 客户端证书"
+  },
+  {
+    "en": "mTLS client key",
+    "zh": "mTLS 客户端密钥"
+  },
+  {
+    "en": "Inherit from parent",
+    "zh": "继承父级"
+  },
+  {
+    "en": "Yes, for this session",
+    "zh": "是，仅本次会话"
+  },
+  {
+    "en": "Yes, and remember this directory",
+    "zh": "是，并记住此目录"
+  },
+  {
+    "en": "Skip — use Claude Code defaults (auto-updates)",
+    "zh": "跳过 — 使用默认值（自动更新）"
+  },
+  {
+    "en": "Pin the working models",
+    "zh": "固定当前模型"
+  },
+  {
+    "en": "Install it2 now",
+    "zh": "立即安装 it2"
+  },
+  {
+    "en": "Use tmux instead",
+    "zh": "改用 tmux"
+  },
+  {
+    "en": "Full response",
+    "zh": "完整回复"
+  },
+  {
+    "en": "Continue this conversation",
+    "zh": "继续此对话"
+  },
+  {
+    "en": "Send message as a new conversation",
+    "zh": "作为新对话发送"
+  },
+  {
+    "en": "Don't ask me again",
+    "zh": "不要再问我"
+  },
+  {
+    "en": "Resume from summary (recommended)",
+    "zh": "从摘要恢复（推荐）"
+  },
+  {
+    "en": "Resume full session as-is",
+    "zh": "完整恢复会话"
+  },
+  {
+    "en": "Restore code and conversation",
+    "zh": "恢复代码和对话"
+  },
+  {
+    "en": "Restore conversation",
+    "zh": "恢复对话"
+  },
+  {
+    "en": "Restore code",
+    "zh": "恢复代码"
+  },
+  {
+    "en": "Summarize from here",
+    "zh": "从此处开始摘要"
+  },
+  {
+    "en": "Submit answers",
+    "zh": "提交回答"
+  },
+  {
+    "en": "Yes, allow external imports",
+    "zh": "是，允许外部引入"
+  },
+  {
+    "en": "No, disable external imports",
+    "zh": "否，禁用外部引入"
+  },
+  {
+    "en": "Yes, and bypass permissions",
+    "zh": "是，并跳过权限检查"
+  },
+  {
+    "en": "Yes, and use auto mode",
+    "zh": "是，并使用自动模式"
+  },
+  {
+    "en": "Yes, auto-accept edits",
+    "zh": "是，自动接受编辑"
+  },
+  {
+    "en": "Yes, manually approve edits",
+    "zh": "是，手动审批编辑"
+  },
+  {
+    "en": "Yes, and don't ask again for",
+    "zh": "是，不再询问"
+  },
+  {
+    "en": "Yes, and make it my default mode",
+    "zh": "是，并设为默认模式"
+  },
+  {
+    "en": "Yes, enable auto mode",
+    "zh": "是，启用自动模式"
+  },
+  {
+    "en": "Yes, delete",
+    "zh": "是，删除"
+  },
+  {
+    "en": "No, cancel",
+    "zh": "否，取消"
+  },
+  {
+    "en": "No, not now",
+    "zh": "否，暂时不"
+  },
+  {
+    "en": "Continue without using this MCP server",
+    "zh": "不使用此 MCP 服务器继续"
+  },
+  {
+    "en": "Use this MCP server",
+    "zh": "使用此 MCP 服务器"
+  },
+  {
+    "en": "Continue without these settings",
+    "zh": "不使用这些设置继续"
+  },
+  {
+    "en": "I am using this for local development",
+    "zh": "我用于本地开发"
+  },
+  {
+    "en": "Install for you (user scope)",
+    "zh": "为你安装（用户范围）"
+  },
+  {
+    "en": "Install for all collaborators on this repository (project scope)",
+    "zh": "为所有协作者安装（项目范围）"
+  },
+  {
+    "en": "Install for you, in this repo only (local scope)",
+    "zh": "为你安装，仅此仓库（本地范围）"
+  },
+  {
+    "en": "Keep worktree",
+    "zh": "保留 worktree"
+  },
+  {
+    "en": "Keep worktree and tmux session",
+    "zh": "保留 worktree 和 tmux 会话"
+  },
+  {
+    "en": "Keep worktree, kill tmux session",
+    "zh": "保留 worktree，关闭 tmux 会话"
+  },
+  {
+    "en": "Remove worktree",
+    "zh": "移除 worktree"
+  },
+  {
+    "en": "Remove worktree and tmux session",
+    "zh": "移除 worktree 和 tmux 会话"
+  },
+  {
+    "en": "Remote Control active",
+    "zh": "远程控制已连接"
+  },
+  {
+    "en": "Remote Control connecting…",
+    "zh": "远程控制连接中…"
+  },
+  {
+    "en": "Remote Control failed",
+    "zh": "远程控制失败"
+  },
+  {
+    "en": "Remote Control reconnecting",
+    "zh": "远程控制重连中"
+  },
+  {
+    "en": "Enable Remote Control for this session",
+    "zh": "为本次会话启用远程控制"
+  },
+  {
+    "en": "Validating session",
+    "zh": "验证会话中"
+  },
+  {
+    "en": "Fetching session logs",
+    "zh": "获取会话日志中"
+  },
+  {
+    "en": "Getting branch info",
+    "zh": "获取分支信息中"
+  },
+  {
+    "en": "Checking out branch",
+    "zh": "切换分支中"
+  },
+  {
+    "en": "accept edits on",
+    "zh": "自动接受编辑"
+  },
+  {
+    "en": "plan mode on",
+    "zh": "计划模式"
+  },
+  {
+    "en": "auto mode on",
+    "zh": "自动模式"
+  },
+  {
+    "en": "Generate with Claude (recommended)",
+    "zh": "用 Claude 生成（推荐）"
+  },
+  {
+    "en": "Manual configuration",
+    "zh": "手动配置"
+  },
+  {
+    "en": "Open in editor",
+    "zh": "在编辑器中打开"
+  },
+  {
+    "en": "Exit and fix manually",
+    "zh": "退出并手动修复"
+  },
+  {
+    "en": "Reset with default configuration",
+    "zh": "重置为默认配置"
+  },
+  {
+    "en": "Allow possible downgrade to stable version",
+    "zh": "允许降级到稳定版"
+  },
+  {
+    "en": "Upgrade your plan",
+    "zh": "升级你的计划"
+  },
+  {
+    "en": "Upgrade to Team plan",
+    "zh": "升级到团队计划"
+  },
+  {
+    "en": "Proceed with Extra Usage billing",
+    "zh": "继续使用额外用量计费"
+  },
+  {
+    "en": "Stop and wait for limit to reset",
+    "zh": "停止并等待限额重置"
+  },
+  {
+    "en": "No advisor",
+    "zh": "无顾问"
+  },
+  {
+    "en": "Implement here",
+    "zh": "在此实现"
+  },
+  {
+    "en": "Start new session",
+    "zh": "开始新会话"
+  },
+  {
+    "en": "Run ultraplan",
+    "zh": "运行 ultraplan"
+  },
+  {
+    "en": "Stop ultraplan",
+    "zh": "停止 ultraplan"
+  },
+  {
+    "en": "Stop ultrareview",
+    "zh": "停止 ultrareview"
+  },
+  {
+    "en": "Enable with latest channel",
+    "zh": "使用 latest 频道启用"
+  },
+  {
+    "en": "Enable with stable channel",
+    "zh": "使用 stable 频道启用"
+  },
+  {
+    "en": "Install Chrome extension",
+    "zh": "安装 Chrome 扩展"
+  },
+  {
+    "en": "No, keep planning",
+    "zh": "否，继续规划"
+  },
+  {
+    "en": "Don't ask again",
+    "zh": "不再询问"
+  },
+  {
+    "en": "Edit content",
+    "zh": "编辑内容"
+  },
+  {
+    "en": "Fix errors",
+    "zh": "修复错误"
+  },
+  {
+    "en": "Regenerate",
+    "zh": "重新生成"
+  },
+  {
+    "en": "Play animation",
+    "zh": "播放动画"
   }
 ]
