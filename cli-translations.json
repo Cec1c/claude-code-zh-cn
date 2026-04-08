@@ -1242,5 +1242,45 @@
   {
     "en": "This command requires approval",
     "zh": "此命令需要批准"
+  },
+  {
+    "en": "Accept terms · Help improve Claude: OFF",
+    "zh": "接受条款 · 帮助改进 Claude：关"
+  },
+  {
+    "en": "Accept terms · Help improve Claude: OFF (for emails with your domain)",
+    "zh": "接受条款 · 帮助改进 Claude：关（适用于你的域名邮箱）"
+  },
+  {
+    "en": "Accept terms · Help improve Claude: ON",
+    "zh": "接受条款 · 帮助改进 Claude：开"
+  },
+  {
+    "en": "Yes, I trust these settings",
+    "zh": "是，我信任这些设置"
+  },
+  {
+    "en": "Yes, and allow Claude to edit its own settings for this session",
+    "zh": "是，并允许 Claude 在本次会话中编辑自身设置"
+  },
+  {
+    "en": "Yes, allow all edits during this session",
+    "zh": "是，本次会话允许所有编辑"
+  },
+  {
+    "en": "Yes, and always allow access to ",
+    "zh": "是，并始终允许访问 "
+  },
+  {
+    "en": "Yes, allow all edits in ",
+    "zh": "是，允许所有编辑在 "
+  },
+  {
+    "en": "Open System Settings → Accessibility",
+    "zh": "打开系统设置 → 辅助功能"
+  },
+  {
+    "en": "No, and don't show plugin installation hints again",
+    "zh": "否，不再显示插件安装提示"
   }
 ]
