@@ -10,6 +10,7 @@ BACKUP_FILE="$HOME/.claude/settings.json.zh-cn-backup.$(date +%Y%m%d%H%M%S)"
 OVERLAY_FILE="$SCRIPT_DIR/settings-overlay.json"
 PLUGIN_SRC="$SCRIPT_DIR/plugin"
 PLUGIN_DST="$HOME/.claude/plugins/claude-code-zh-cn"
+MARKER_FILE="$PLUGIN_DST/.patched-version"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -120,8 +121,6 @@ echo -e "${GREEN}已更新 settings.json${NC}"
 # 安装插件
 mkdir -p "$PLUGIN_DST"
 cp -r "$PLUGIN_SRC"/* "$PLUGIN_DST/"
-# 复制 patch-cli.sh 到插件目录，hook 需要用
-cp "$SCRIPT_DIR/patch-cli.sh" "$PLUGIN_DST/"
 chmod +x "$PLUGIN_DST/patch-cli.sh"
 echo -e "${GREEN}已安装插件 → ${PLUGIN_DST}${NC}"
 
@@ -155,6 +154,32 @@ if [ -f "$CLI_FILE" ]; then
 
     PATCH_COUNT=$("$SCRIPT_DIR/patch-cli.sh" "$CLI_FILE" 2>/dev/null || echo "0")
     echo -e "${GREEN}已 patch cli.js（${PATCH_COUNT:-0} 处硬编码文字）${NC}"
+
+    # 写入 marker，避免首次会话重复 patch；后续插件版本或 patch 规则变化时 hook 会重新 patch
+    PATCH_REVISION=$(node - "$PLUGIN_DST" <<'NODE'
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+
+const root = process.argv[2];
+const files = ["manifest.json", "patch-cli.sh", "patch-cli.js", "cli-translations.json"];
+const hash = crypto.createHash("sha256");
+
+for (const file of files) {
+    const target = path.join(root, file);
+    if (!fs.existsSync(target)) continue;
+    hash.update(file);
+    hash.update("\0");
+    hash.update(fs.readFileSync(target));
+    hash.update("\0");
+}
+
+process.stdout.write(hash.digest("hex").slice(0, 16));
+NODE
+)
+    if [ -n "${PATCH_REVISION:-}" ] && [ -n "${CURRENT_VERSION:-}" ]; then
+        echo "${CURRENT_VERSION}|${PATCH_REVISION}" > "$MARKER_FILE"
+    fi
 else
     echo -e "${YELLOW}未找到 cli.js，跳过 patch 步骤${NC}"
     echo -e "  提示：如果 Claude Code 安装在非标准路径，可能需要手动 patch"

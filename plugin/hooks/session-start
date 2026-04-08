@@ -6,6 +6,29 @@
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/plugins/claude-code-zh-cn}"
 MARKER_FILE="$PLUGIN_ROOT/.patched-version"
 
+compute_patch_revision() {
+    node - "$PLUGIN_ROOT" <<'NODE'
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+
+const root = process.argv[2];
+const files = ["manifest.json", "patch-cli.sh", "patch-cli.js", "cli-translations.json"];
+const hash = crypto.createHash("sha256");
+
+for (const file of files) {
+    const target = path.join(root, file);
+    if (!fs.existsSync(target)) continue;
+    hash.update(file);
+    hash.update("\0");
+    hash.update(fs.readFileSync(target));
+    hash.update("\0");
+}
+
+process.stdout.write(hash.digest("hex").slice(0, 16));
+NODE
+}
+
 # 自动 patch 检测
 CLI_FILE="$(dirname "$(which claude)")/../lib/node_modules/@anthropic-ai/claude-code/cli.js" 2>/dev/null || true
 if [ -z "$CLI_FILE" ]; then
@@ -16,15 +39,20 @@ AUTO_PATCH_MSG=""
 if [ -f "$CLI_FILE" ]; then
     # 读取当前 cli.js 版本
     CURRENT_VERSION=$(head -6 "$CLI_FILE" | grep -o '// Version: [^ ]*' | head -1 | sed 's/\/\/ Version: //')
+    PATCH_REVISION=$(compute_patch_revision 2>/dev/null || true)
+    CURRENT_MARKER="${CURRENT_VERSION}"
+    if [ -n "${PATCH_REVISION:-}" ]; then
+        CURRENT_MARKER="${CURRENT_VERSION}|${PATCH_REVISION}"
+    fi
     PATCHED_VERSION=""
     [ -f "$MARKER_FILE" ] && PATCHED_VERSION=$(cat "$MARKER_FILE")
 
-    if [ "$CURRENT_VERSION" != "$PATCHED_VERSION" ]; then
-        # 版本变了（或首次），直接 patch 当前文件（不恢复旧备份，避免降级）
+    if [ "$CURRENT_MARKER" != "$PATCHED_VERSION" ]; then
+        # Claude Code 版本或插件 patch 规则变了（或首次），直接 patch 当前文件
         PATCH_COUNT=$("$PLUGIN_ROOT/patch-cli.sh" "$CLI_FILE" 2>/dev/null || echo "0")
 
         if [ "$PATCH_COUNT" != "0" ]; then
-            echo "$CURRENT_VERSION" > "$MARKER_FILE"
+            echo "$CURRENT_MARKER" > "$MARKER_FILE"
             AUTO_PATCH_MSG="（已自动 patch ${PATCH_COUNT} 处硬编码文字）"
         fi
     fi
