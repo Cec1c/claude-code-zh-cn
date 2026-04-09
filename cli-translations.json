@@ -116,6 +116,10 @@
     "zh": " 保存 "
   },
   {
+    "en": " tokens · /autocompact",
+    "zh": " tokens · /autocompact"
+  },
+  {
     "en": " · ./path/to/marketplace",
     "zh": " · ./path/to/marketplace"
   },
@@ -452,8 +456,16 @@
     "zh": "自动压缩"
   },
   {
+    "en": "Auto-compact is currently disabled (see /config)",
+    "zh": "自动压缩当前已禁用（见 /config）"
+  },
+  {
     "en": "Auto-compact when context is full",
     "zh": "上下文满时自动压缩"
+  },
+  {
+    "en": "Auto-compact window: ",
+    "zh": "自动压缩窗口："
   },
   {
     "en": "Auto-connect to IDE (external terminal)",
@@ -476,6 +488,18 @@
     "zh": "自动更新中…"
   },
   {
+    "en": "Autocompact",
+    "zh": "自动压缩"
+  },
+  {
+    "en": "Autocompact buffer",
+    "zh": "自动压缩缓冲"
+  },
+  {
+    "en": "Autocompact is disabled",
+    "zh": "自动压缩已禁用"
+  },
+  {
     "en": "Automatic color",
     "zh": "自动配色"
   },
@@ -494,6 +518,10 @@
   {
     "en": "Bedrock base URL",
     "zh": "Bedrock 基础 URL"
+  },
+  {
+    "en": "Before compacting, ask me what to preserve",
+    "zh": "压缩前先问我保留什么"
   },
   {
     "en": "Behavior ",
@@ -684,6 +712,34 @@
     "zh": "命令："
   },
   {
+    "en": "Compact buffer",
+    "zh": "压缩缓冲"
+  },
+  {
+    "en": "Compact summary",
+    "zh": "压缩摘要"
+  },
+  {
+    "en": "Compacted ",
+    "zh": "已压缩 "
+  },
+  {
+    "en": "Compacting conversation",
+    "zh": "正在压缩对话"
+  },
+  {
+    "en": "Compacting conversation…",
+    "zh": "压缩对话中…"
+  },
+  {
+    "en": "Compaction canceled.",
+    "zh": "压缩已取消。"
+  },
+  {
+    "en": "Compaction interrupted · This may be due to network issues — please try again.",
+    "zh": "压缩中断 · 可能是网络问题，请重试。"
+  },
+  {
     "en": "Config change rejected",
     "zh": "配置更改被拒绝"
   },
@@ -702,6 +758,10 @@
   {
     "en": "Configure options",
     "zh": "配置选项"
+  },
+  {
+    "en": "Configure the auto-compact window size",
+    "zh": "配置自动压缩窗口大小"
   },
   {
     "en": "Contact your administrator.",
@@ -730,6 +790,10 @@
   {
     "en": "Continue without using this MCP server",
     "zh": "不使用此 MCP 服务器继续"
+  },
+  {
+    "en": "Conversation compacted",
+    "zh": "对话已压缩"
   },
   {
     "en": "Conversation copied to clipboard",
@@ -1452,6 +1516,10 @@
     "zh": "消息 "
   },
   {
+    "en": "Microcompact",
+    "zh": "微压缩"
+  },
+  {
     "en": "Microsoft Foundry base URL",
     "zh": "Microsoft Foundry 基础 URL"
   },
@@ -1522,6 +1590,10 @@
   {
     "en": "No matching sessions found.",
     "zh": "未找到匹配的会话。"
+  },
+  {
+    "en": "No messages to compact",
+    "zh": "没有消息可压缩"
   },
   {
     "en": "No model usage data available",
@@ -1602,6 +1674,10 @@
   {
     "en": "Not detected",
     "zh": "未检测到"
+  },
+  {
+    "en": "Not enough messages to compact.",
+    "zh": "消息不足，无法压缩。"
   },
   {
     "en": "Not in remote mode. Start with `claude --remote` to use this command.",
@@ -2000,6 +2076,14 @@
     "zh": "运行中 "
   },
   {
+    "en": "Running PostCompact hooks…",
+    "zh": "运行 PostCompact hooks…"
+  },
+  {
+    "en": "Running PreCompact hooks…",
+    "zh": "运行 PreCompact hooks…"
+  },
+  {
     "en": "Running feedback capture...",
     "zh": "正在捕获反馈..."
   },
@@ -2054,6 +2138,10 @@
   {
     "en": "Select a version to view its notes.",
     "zh": "选择一个版本查看其说明。"
+  },
+  {
+    "en": "Select auto-compact window: ",
+    "zh": "选择自动压缩窗口："
   },
   {
     "en": "Select content to copy:",
@@ -2372,6 +2460,10 @@
     "zh": "工具名称："
   },
   {
+    "en": "Tool use is not allowed during compaction",
+    "zh": "压缩过程中不允许使用工具"
+  },
+  {
     "en": "Tool use rejected",
     "zh": "工具调用被拒绝"
   },
@@ -2478,6 +2570,10 @@
   {
     "en": "Use /btw to ask a quick side question without interrupting Claude's current work",
     "zh": "使用 /btw 问个旁路问题，不打断 Claude 当前工作"
+  },
+  {
+    "en": "Use /clear to start fresh when switching topics and free up context",
+    "zh": "切换话题时用 /clear 重新开始，释放上下文空间"
   },
   {
     "en": "Use /issue to report model behavior issues.",
@@ -2884,6 +2980,10 @@
     "zh": "新任务？"
   },
   {
+    "en": "new task? /clear to save ",
+    "zh": "新任务？/clear 保存 "
+  },
+  {
     "en": "no matches ",
     "zh": "无匹配项 "
   },
@@ -3024,6 +3124,10 @@
     "zh": "✨ 闪亮 ✨"
   },
   {
+    "en": "✻ Conversation compacted (",
+    "zh": "✻ 对话已压缩（"
+  },
+  {
     "en": "✻ Thinking…",
     "zh": "✻ 思考中…"
   },
@@ -3034,13 +3138,5 @@
   {
     "en": "⧉ selected lines",
     "zh": "⧉ 已选行"
-  },
-  {
-    "en": "Use /clear to start fresh when switching topics and free up context",
-    "zh": "切换话题时用 /clear 重新开始，释放上下文空间"
-  },
-  {
-    "en": "new task? /clear to save ",
-    "zh": "新任务？/clear 保存 "
   }
 ]
