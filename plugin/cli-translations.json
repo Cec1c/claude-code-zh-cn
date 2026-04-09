@@ -5344,22 +5344,6 @@
     "zh": "返回到"
   },
   {
-    "en": "Recalled",
-    "zh": "已召回"
-  },
-  {
-    "en": "Received",
-    "zh": "已接收"
-  },
-  {
-    "en": "Summarized",
-    "zh": "已摘要"
-  },
-  {
-    "en": "Added",
-    "zh": "已添加"
-  },
-  {
     "en": "Updated cell",
     "zh": "已更新单元格"
   },
@@ -5540,10 +5524,6 @@
     "zh": "LSP 插件推荐"
   },
   {
-    "en": "Plugin:",
-    "zh": "插件："
-  },
-  {
     "en": "Advisor disabled",
     "zh": "顾问已禁用"
   },
@@ -5716,10 +5696,6 @@
     "zh": "已发送消息到"
   },
   {
-    "en": "Scheduled",
-    "zh": "已计划"
-  },
-  {
     "en": "Flagged on",
     "zh": "标记于"
   },
@@ -5772,76 +5748,12 @@
     "zh": "OAuth 错误："
   },
   {
-    "en": "Error:",
-    "zh": "错误："
-  },
-  {
-    "en": "Warning:",
-    "zh": "警告："
-  },
-  {
-    "en": "Reason:",
-    "zh": "原因："
-  },
-  {
-    "en": "Source:",
-    "zh": "来源："
-  },
-  {
-    "en": "Type:",
-    "zh": "类型："
-  },
-  {
-    "en": "Event:",
-    "zh": "事件："
-  },
-  {
-    "en": "Status:",
-    "zh": "状态："
-  },
-  {
-    "en": "Session:",
-    "zh": "会话："
-  },
-  {
     "en": "Task #",
     "zh": "任务 #"
   },
   {
-    "en": "Field",
-    "zh": "字段"
-  },
-  {
-    "en": "Team:",
-    "zh": "团队："
-  },
-  {
     "en": "Enter to",
     "zh": "Enter"
-  },
-  {
-    "en": "Using",
-    "zh": "使用中"
-  },
-  {
-    "en": "Loaded",
-    "zh": "已加载"
-  },
-  {
-    "en": "Getting",
-    "zh": "获取中"
-  },
-  {
-    "en": "Viewing",
-    "zh": "查看中"
-  },
-  {
-    "en": "Reading",
-    "zh": "读取中"
-  },
-  {
-    "en": "Idle",
-    "zh": "空闲"
   },
   {
     "en": "Never for",
@@ -5850,22 +5762,6 @@
   {
     "en": "Session: ",
     "zh": "会话："
-  },
-  {
-    "en": "Plug:",
-    "zh": "插件："
-  },
-  {
-    "en": "Plug-in",
-    "zh": "插件"
-  },
-  {
-    "en": "Plug-in:",
-    "zh": "插件："
-  },
-  {
-    "en": "Plug-in: ",
-    "zh": "插件："
   },
   {
     "en": "Hooks: ",
@@ -5884,100 +5780,20 @@
     "zh": "命令："
   },
   {
-    "en": "Updated",
-    "zh": "已更新"
-  },
-  {
-    "en": "Remove",
-    "zh": "移除"
-  },
-  {
-    "en": "Found",
-    "zh": "找到"
-  },
-  {
-    "en": "Allowed",
-    "zh": "已允许"
-  },
-  {
-    "en": "Denied",
-    "zh": "已拒绝"
-  },
-  {
-    "en": "Delete",
-    "zh": "删除"
-  },
-  {
     "en": "Edit file",
     "zh": "编辑文件"
-  },
-  {
-    "en": "Large",
-    "zh": "大"
-  },
-  {
-    "en": "Wrote",
-    "zh": "已写入"
-  },
-  {
-    "en": "Also:",
-    "zh": "还有："
-  },
-  {
-    "en": "Press",
-    "zh": "按"
   },
   {
     "en": "Enter",
     "zh": "Enter"
   },
   {
-    "en": "Type",
-    "zh": "类型"
-  },
-  {
-    "en": "Run",
-    "zh": "运行"
-  },
-  {
-    "en": "Set",
-    "zh": "设置"
-  },
-  {
-    "en": "Add",
-    "zh": "添加"
-  },
-  {
     "en": "PR #",
     "zh": "PR #"
   },
   {
-    "en": "PR:",
-    "zh": "PR："
-  },
-  {
     "en": "URL",
     "zh": "URL"
-  },
-  {
-    "en": "Ran",
-    "zh": "已运行"
-  },
-  {
-    "en": "Did",
-    "zh": "已做"
-  },
-  {
-    "en": "Use",
-    "zh": "使用"
-  },
-  {
-    "en": "In:",
-    "zh": "在："
-  },
-  {
-    "en": "ON ",
-    "zh": "开 "
   },
   {
     "en": "• Updated",
