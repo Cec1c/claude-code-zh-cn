@@ -40,6 +40,314 @@ function tryRegexReplace(pattern, replacer) {
     return hit;
 }
 
+function scanDoubleQuotedLiterals(source) {
+    const literals = [];
+    const regexAllowedKeywords = new Set([
+        "case",
+        "delete",
+        "do",
+        "else",
+        "in",
+        "instanceof",
+        "new",
+        "of",
+        "return",
+        "throw",
+        "typeof",
+        "void",
+        "yield",
+        "await",
+    ]);
+
+    let state = "code";
+    let i = 0;
+    let start = -1;
+    let prevToken = { type: "start", value: "" };
+    const templateExprDepth = [];
+
+    function setPrevToken(type, value = "") {
+        prevToken = { type, value };
+    }
+
+    function isIdentifierStart(ch) {
+        return /[A-Za-z_$]/.test(ch);
+    }
+
+    function isIdentifierPart(ch) {
+        return /[A-Za-z0-9_$]/.test(ch);
+    }
+
+    function isDigit(ch) {
+        return ch >= "0" && ch <= "9";
+    }
+
+    function canStartRegex() {
+        if (prevToken.type === "start") return true;
+        if (prevToken.type === "operator") return true;
+        if (prevToken.type === "open") return true;
+        if (prevToken.type === "comma") return true;
+        if (prevToken.type === "colon") return true;
+        if (prevToken.type === "question") return true;
+        if (prevToken.type === "templateExprStart") return true;
+        if (prevToken.type === "keyword" && regexAllowedKeywords.has(prevToken.value)) return true;
+        return false;
+    }
+
+    while (i < source.length) {
+        const ch = source[i];
+        const next = source[i + 1];
+
+        switch (state) {
+            case "code":
+                if (/\s/.test(ch)) {
+                    i++;
+                    continue;
+                }
+
+                if (ch === '"') {
+                    start = i;
+                    state = "double";
+                    i++;
+                    continue;
+                }
+
+                if (ch === "'") {
+                    state = "single";
+                    i++;
+                    continue;
+                }
+
+                if (ch === "`") {
+                    state = "template";
+                    i++;
+                    continue;
+                }
+
+                if (ch === "/" && next === "/") {
+                    state = "lineComment";
+                    i += 2;
+                    continue;
+                }
+
+                if (ch === "/" && next === "*") {
+                    state = "blockComment";
+                    i += 2;
+                    continue;
+                }
+
+                if (ch === "/") {
+                    if (canStartRegex()) {
+                        state = "regex";
+                        i++;
+                        continue;
+                    }
+                    setPrevToken("operator", "/");
+                    i++;
+                    continue;
+                }
+
+                if (isIdentifierStart(ch)) {
+                    let j = i + 1;
+                    while (j < source.length && isIdentifierPart(source[j])) j++;
+                    const word = source.slice(i, j);
+                    setPrevToken(regexAllowedKeywords.has(word) ? "keyword" : "identifier", word);
+                    i = j;
+                    continue;
+                }
+
+                if (isDigit(ch)) {
+                    let j = i + 1;
+                    while (j < source.length && /[0-9A-Fa-f_xXobBeE.+-]/.test(source[j])) j++;
+                    setPrevToken("number", source.slice(i, j));
+                    i = j;
+                    continue;
+                }
+
+                if (ch === "{") {
+                    if (templateExprDepth.length > 0) {
+                        templateExprDepth[templateExprDepth.length - 1]++;
+                    }
+                    setPrevToken("open", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === "}") {
+                    if (templateExprDepth.length > 0) {
+                        templateExprDepth[templateExprDepth.length - 1]--;
+                        if (templateExprDepth[templateExprDepth.length - 1] === 0) {
+                            templateExprDepth.pop();
+                            setPrevToken("templateExprEnd", ch);
+                            state = "template";
+                            i++;
+                            continue;
+                        }
+                    }
+                    setPrevToken("close", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === "(" || ch === "[") {
+                    setPrevToken("open", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === ")" || ch === "]") {
+                    setPrevToken("close", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === ",") {
+                    setPrevToken("comma", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === ":") {
+                    setPrevToken("colon", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === "?") {
+                    setPrevToken("question", ch);
+                    i++;
+                    continue;
+                }
+
+                if (ch === "=" && next === ">") {
+                    setPrevToken("operator", "=>");
+                    i += 2;
+                    continue;
+                }
+
+                setPrevToken("operator", ch);
+                i++;
+                continue;
+
+            case "double":
+                if (ch === "\\") {
+                    i += 2;
+                    continue;
+                }
+                if (ch === '"') {
+                    literals.push({
+                        start,
+                        end: i + 1,
+                        text: source.slice(start + 1, i),
+                    });
+                    setPrevToken("string");
+                    state = "code";
+                    i++;
+                    continue;
+                }
+                i++;
+                continue;
+
+            case "single":
+                if (ch === "\\") {
+                    i += 2;
+                    continue;
+                }
+                if (ch === "'") {
+                    setPrevToken("string");
+                    state = "code";
+                    i++;
+                    continue;
+                }
+                i++;
+                continue;
+
+            case "template":
+                if (ch === "\\") {
+                    i += 2;
+                    continue;
+                }
+                if (ch === "`") {
+                    setPrevToken("template");
+                    state = "code";
+                    i++;
+                    continue;
+                }
+                if (ch === "$" && next === "{") {
+                    templateExprDepth.push(1);
+                    setPrevToken("templateExprStart", "${");
+                    state = "code";
+                    i += 2;
+                    continue;
+                }
+                i++;
+                continue;
+
+            case "lineComment":
+                if (ch === "\n" || ch === "\r") {
+                    state = "code";
+                }
+                i++;
+                continue;
+
+            case "blockComment":
+                if (ch === "*" && next === "/") {
+                    state = "code";
+                    i += 2;
+                    continue;
+                }
+                i++;
+                continue;
+
+            case "regex":
+                if (ch === "\\") {
+                    i += 2;
+                    continue;
+                }
+                if (ch === "[") {
+                    state = "regexClass";
+                    i++;
+                    continue;
+                }
+                if (ch === "/") {
+                    i++;
+                    while (i < source.length && /[A-Za-z]/.test(source[i])) i++;
+                    setPrevToken("regex");
+                    state = "code";
+                    continue;
+                }
+                i++;
+                continue;
+
+            case "regexClass":
+                if (ch === "\\") {
+                    i += 2;
+                    continue;
+                }
+                if (ch === "]") {
+                    state = "regex";
+                    i++;
+                    continue;
+                }
+                i++;
+                continue;
+        }
+    }
+
+    return literals;
+}
+
+function replaceLiteralText(text, en, zh) {
+    const wordLike = en.match(/^([^A-Za-z0-9_$]*)([A-Za-z][A-Za-z0-9_$]*)([^A-Za-z0-9_$]*)$/);
+    if (!wordLike) {
+        return text.split(en).join(zh);
+    }
+
+    const [, , word] = wordLike;
+    const enEscaped = en.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(`(^|[^A-Za-z0-9_$])(${enEscaped})(?=$|[^A-Za-z0-9_$])`, "g");
+    return text.replace(pattern, (match, boundary) => boundary + zh);
+}
+
 // === 特殊 patch（基于精确代码模式匹配，安全）===
 // 这些 patch 匹配非常特定的代码模式，不会误伤标识符
 
@@ -137,50 +445,48 @@ tryRegexReplace(/\$\{[^}]+\}\s+Idle(?=[`"])/g, (match) =>
 // 修: let G=H&&`${O} ${M}`     → "翻搅了 51秒"
 tryReplace('`${O} for ${M}`', '`${O} ${M}`');
 
-// === 逐条翻译：用正则匹配双引号字符串内的目标文本 ===
+// === 逐条翻译：只替换真实的双引号字符串字面量 ===
 //
-// 原理：对每条翻译 { en, zh }，构建正则：
-//   /"([^"]*?)EN_TEXT([^"]*?)"/g
-// 匹配双引号字符串字面量中包含英文文本的位置，
-// 然后在回调中替换 en→zh。
-//
-// 正则字面量中的 " 也会被匹配（如 /"Error"/），在回调中通过
-// 检查 offset 前一个字符是否为 / 来排除。
-//
-// 限制：
-// - 不翻译反引号模板中的文本（22 条在模板中，暂不覆盖）
-// - 不翻译字符串内有转义引号 \" 的情况（cli.js 极少出现）
+// 先扫描源码中的真实双引号字符串 token，再只在这些 token 内做替换。
+// 这样不会跨越源码结构误改对象键、标识符或注释。
 
 if (translationsFile && fs.existsSync(translationsFile)) {
     const translations = JSON.parse(fs.readFileSync(translationsFile, "utf8"));
-    // 按长度降序，避免短串先被替换导致长串匹配失败
     translations.sort((a, b) => b.en.length - a.en.length);
+    const literals = scanDoubleQuotedLiterals(s);
+    let literalsChanged = false;
 
     for (const { en, zh } of translations) {
         if (en === zh) continue;
 
-        // 对 en 文本进行正则转义
-        const enEscaped = en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-        // 正则：匹配 "（不含引号的任意内容）en文本（不含引号的任意内容）"
-        // [^"\\]* 匹配不含引号和反斜杠的字符（简化处理，忽略 \" 转义引号的情况）
-        const regex = new RegExp('("[^"\\\\]*' + enEscaped + '[^"\\\\]*")', 'g');
-
         let hit = false;
-        s = s.replace(regex, (match, p1, offset, str) => {
-            // 跳过正则字面量内的 "..."（如 /"Error"/ 中的 "Error"）
-            // 正则字面量特征：offset 前一个字符是 /
-            // （除法运算符的 / 后面不会紧跟 "，所以这个启发式在 minified JS 中安全）
-            if (offset > 0 && str[offset - 1] === '/') {
-                return match;
+        for (const literal of literals) {
+            if (!literal.text.includes(en)) {
+                continue;
             }
-            const replaced = match.substring(0, match.length - 1)
-                .split(en).join(zh) + '"';
-            if (replaced !== match) hit = true;
-            return replaced;
-        });
+            const replaced = replaceLiteralText(literal.text, en, zh);
+            if (replaced === literal.text) {
+                continue;
+            }
+            literal.text = replaced;
+            hit = true;
+            literalsChanged = true;
+        }
 
         if (hit) count++;
+    }
+
+    if (literalsChanged) {
+        let rebuilt = "";
+        let cursor = 0;
+        for (const literal of literals) {
+            rebuilt += s.slice(cursor, literal.start + 1);
+            rebuilt += literal.text;
+            rebuilt += '"';
+            cursor = literal.end;
+        }
+        rebuilt += s.slice(cursor);
+        s = rebuilt;
     }
 }
 
