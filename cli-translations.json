@@ -57,7 +57,7 @@
   },
   {
     "en": " Voice mode is now available · /voice to enable",
-    "zh": " 语音模式现已可用 · /voice 启用"
+    "zh": " 语音模式现已可用 · 用 /voice 启用"
   },
   {
     "en": " [Community Managed]",
@@ -153,7 +153,7 @@
   },
   {
     "en": " · /plugin for details",
-    "zh": " · /plugin 查看详情"
+    "zh": " · 用 /plugin 查看详情"
   },
   {
     "en": " · /sandbox",
@@ -189,15 +189,15 @@
   },
   {
     "en": " · Run /reload-plugins to apply",
-    "zh": " · 运行 /reload-plugins 以应用"
+    "zh": " · 运行 /reload-plugins 以生效"
   },
   {
     "en": " · enter to collapse",
-    "zh": " · 回车折叠"
+    "zh": " · 按 Enter 折叠"
   },
   {
     "en": " · enter to view",
-    "zh": " · 回车查看"
+    "zh": " · 按 Enter 查看"
   },
   {
     "en": " · owner/repo (GitHub)",
@@ -925,11 +925,11 @@
   },
   {
     "en": "Computer Use needs macOS permissions",
-    "zh": "Computer Use 需要 macOS 权限"
+    "zh": "计算机使用需要 macOS 权限"
   },
   {
     "en": "Computer Use wants to control these apps",
-    "zh": "Computer Use 想要控制这些应用"
+    "zh": "计算机使用想要控制这些应用"
   },
   {
     "en": "Config change rejected",
@@ -1369,7 +1369,7 @@
   },
   {
     "en": "Enter to auth",
-    "zh": "按 Enter 认证"
+    "zh": "按 Enter 进行认证"
   },
   {
     "en": "Enter to confirm · Esc to cancel",
@@ -1397,7 +1397,7 @@
   },
   {
     "en": "Enter: Save configuration",
-    "zh": "回车：保存配置"
+    "zh": "按 Enter 保存配置"
   },
   {
     "en": "Enterprise MCPs",
@@ -2169,11 +2169,11 @@
   },
   {
     "en": "No plugin errors",
-    "zh": "没有 plugin 错误"
+    "zh": "没有插件错误"
   },
   {
     "en": "No plugins available.",
-    "zh": "没有可用的 plugin。"
+    "zh": "没有可用插件。"
   },
   {
     "en": "No recent denials. Commands denied by the auto mode classifier will appear here.",
@@ -2437,7 +2437,7 @@
   },
   {
     "en": "Plugin Command Usage:",
-    "zh": "Plugin 命令用法："
+    "zh": "插件命令用法："
   },
   {
     "en": "Plugin Details",
@@ -2481,15 +2481,15 @@
   },
   {
     "en": "Press Enter once you've installed the app",
-    "zh": "安装完成后按回车"
+    "zh": "安装完成后按 Enter"
   },
   {
     "en": "Press Enter or Esc to go back",
-    "zh": "按回车或 Esc 返回"
+    "zh": "按 Enter 或 Esc 返回"
   },
   {
     "en": "Press Enter to continue",
-    "zh": "按回车继续"
+    "zh": "按 Enter 继续"
   },
   {
     "en": "Press Enter to continue anyway, or Ctrl+C to exit and fix issues",
@@ -2529,11 +2529,11 @@
   },
   {
     "en": "Press ↑↓ to navigate · Enter to select · Esc to go back",
-    "zh": "按 ↑↓ 导航 · 回车选择 · Esc 返回"
+    "zh": "按 ↑↓ 导航 · 按 Enter 选择 · 按 Esc 返回"
   },
   {
     "en": "Press ↑↓ to navigate, Enter to select, Esc to cancel",
-    "zh": "按 ↑↓ 导航，回车选择，Esc 取消"
+    "zh": "按 ↑↓ 导航，按 Enter 选择，按 Esc 取消"
   },
   {
     "en": "Print detailed performance stats",
@@ -2761,7 +2761,7 @@
   },
   {
     "en": "Run /reload-plugins to apply changes",
-    "zh": "运行 /reload-plugins 应用更改"
+    "zh": "运行 /reload-plugins 以应用更改"
   },
   {
     "en": "Run Setup and SessionStart:startup hooks, then exit",
@@ -3117,7 +3117,7 @@
   },
   {
     "en": "Strict sandbox mode:",
-    "zh": "严格 sandbox 模式："
+    "zh": "严格沙盒模式："
   },
   {
     "en": "Subagents and workflows also run as tasks — it is all one queue.",
@@ -3829,7 +3829,7 @@
   },
   {
     "en": "Your bash commands will be sandboxed. Disable with /sandbox.",
-    "zh": "你的 bash 命令将在沙箱中运行。使用 /sandbox 禁用。"
+    "zh": "你的 bash 命令将在沙箱中运行。可用 /sandbox 禁用。"
   },
   {
     "en": "Your choice takes effect immediately upon confirmation.",
@@ -4009,11 +4009,11 @@
   },
   {
     "en": "sandbox disabled",
-    "zh": "sandbox 已禁用"
+    "zh": "沙盒已禁用"
   },
   {
     "en": "say its name to get its take · /buddy pet · /buddy off",
-    "zh": "说它的名字听听它的看法 · /buddy pet · /buddy off"
+    "zh": "喊它的名字听听它的看法 · /buddy pet · /buddy off"
   },
   {
     "en": "to see all)",
