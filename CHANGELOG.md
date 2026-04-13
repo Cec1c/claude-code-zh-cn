@@ -6,6 +6,26 @@
 - **次版本号**：新增功能或显著改进（比如新增 patch、新增翻译）
 - **修订号**：Bug 修复和小调整（比如修正一条翻译）
 
+## [2.2.2] - 2026-04-13
+
+### 改进
+
+- 继续收敛普通界面文案，不改动 `Agent` / `Skill` / `Hook` 术语边界
+- 统一一批 `Enter` / `Esc` 提示语，减少 `回车` 与 `Enter` 混用
+- 收紧 `sandbox`、`plugin`、`/clear`、`think-back` 相关高曝光提示的表达
+
+### 修复
+
+- `Use /clear ...` 改为更自然的中文提示，不再保留直译痕迹
+- `unix domain socket` 相关说明文案缩短并统一语气
+- `sandbox` 失败说明改成更自然的提示型表达
+- `plugin - Manage installed plugins` 等菜单文案收紧为更接近 UI 标题的表达
+
+### 验证
+
+- `bash scripts/sync-payload.sh`
+- `node --test tests/*.test.js`：`25/25` 通过
+
 ## [2.2.1] - 2026-04-13
 
 ### 改进

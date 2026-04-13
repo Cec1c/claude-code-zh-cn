@@ -13,7 +13,7 @@
   },
   {
     "en": " (required to block unix domain sockets)",
-    "zh": " （阻止 Unix domain socket 所需）"
+    "zh": " （阻止 Unix domain socket 时需要）"
   },
   {
     "en": " (truncated)",
@@ -425,7 +425,7 @@
   },
   {
     "en": "Allow unsandboxed fallback:",
-    "zh": "允许未沙盒化的回退："
+    "zh": "允许回退到非沙盒模式："
   },
   {
     "en": "Allowed Unix Sockets:",
@@ -689,7 +689,7 @@
   },
   {
     "en": "Cannot block unix domain sockets (see Dependencies tab)",
-    "zh": "无法阻止 Unix domain socket（参见依赖标签页）"
+    "zh": "无法阻止 Unix domain socket（见依赖标签页）"
   },
   {
     "en": "Capabilities: ",
@@ -881,7 +881,7 @@
   },
   {
     "en": "Commands cannot run outside the sandbox under any circumstances.",
-    "zh": "任何情况下都不能在沙盒外运行命令。"
+    "zh": "任何情况下都不允许在沙盒外运行命令。"
   },
   {
     "en": "Commands recently denied by the auto mode classifier.",
@@ -1457,7 +1457,7 @@
   },
   {
     "en": "Evidence of sandbox-caused failures includes:",
-    "zh": "沙盒导致的失败包括："
+    "zh": "沙盒导致失败的迹象包括："
   },
   {
     "en": "Excluded Commands:",
@@ -3237,7 +3237,7 @@
   },
   {
     "en": "The sandbox has the following restrictions:",
-    "zh": "沙盒有以下限制："
+    "zh": "沙盒存在以下限制："
   },
   {
     "en": "Thinking mode",
@@ -3365,7 +3365,7 @@
   },
   {
     "en": "Try running /plugin to manually install the think-back plugin.",
-    "zh": "试试运行 /plugin 手动安装 think-back 插件。"
+    "zh": "可以尝试运行 /plugin 手动安装 think-back 插件。"
   },
   {
     "en": "Try running with --force to override checks",
@@ -3469,7 +3469,7 @@
   },
   {
     "en": "Use /clear to start fresh when switching topics and free up context",
-    "zh": "切换话题时用 /clear 重新开始，释放上下文空间"
+    "zh": "切换话题时可用 /clear 重新开始，并释放上下文"
   },
   {
     "en": "Use /issue to report model behavior issues.",
@@ -3689,7 +3689,7 @@
   },
   {
     "en": "When you see evidence of sandbox-caused failure:",
-    "zh": "当你看到沙盒导致的失败时："
+    "zh": "当你看到沙盒导致失败的迹象时："
   },
   {
     "en": "Will install:",
@@ -5513,7 +5513,7 @@
   },
   {
     "en": "plugin - Manage installed plugins",
-    "zh": "插件 - 管理已安装的插件"
+    "zh": "插件 - 管理已安装插件"
   },
   {
     "en": "Plugin Recommendation",
