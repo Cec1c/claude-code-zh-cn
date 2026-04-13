@@ -444,6 +444,9 @@ tryRegexReplace(/\$\{[^}]+\}\s+Idle(?=[`"])/g, (match) =>
 // 原: let G=H&&`${O} for ${M}`  （O=动词, M=时长）
 // 修: let G=H&&`${O} ${M}`     → "翻搅了 51秒"
 tryReplace('`${O} for ${M}`', '`${O} ${M}`');
+tryRegexReplace(/&&`\$\{[^}]+\} for \$\{[^}]+\}`/g, (match) =>
+    match.replace(" for ", " ")
+);
 
 // === 逐条翻译：只替换真实的双引号字符串字面量 ===
 //
