@@ -6,6 +6,27 @@
 - **次版本号**：新增功能或显著改进（比如新增 patch、新增翻译）
 - **修订号**：Bug 修复和小调整（比如修正一条翻译）
 
+## [2.2.1] - 2026-04-13
+
+### 改进
+
+- `install.sh` 现在会在安装完成时输出真实的 CLI Patch 状态摘要，不再把“已跳过”误显示成“已启用”
+- README 收紧了支持边界和 Layer 4 描述：明确不支持的安装方式会只启用 Layer 1~3
+- `/btw`、`API 密钥`、`插件市场`、`Unix domain socket`、`沙盒`、`Enter to ...` 等高曝光文案统一术语和表达
+- 新增 `tests/translations-quality.test.js`，锁住高曝光术语和半中半英回归
+
+### 修复
+
+- helper 返回 `unknown` 时，不再错误 fallback 到另一份 npm 安装；对应回归用例已补齐
+- native path 缺少 `node-lief` 依赖时，`session-start` 会静默跳过 re-patch 且保持合法 JSON 输出
+- 修复一批半中半英和直译感较重的 UI 词条，减少 `marketplace` / `Enter` / `API key` 这类残留
+
+### 验证
+
+- `bash -n install.sh uninstall.sh plugin/hooks/session-start plugin/hooks/notification compute-patch-revision.sh plugin/compute-patch-revision.sh scripts/sync-payload.sh`
+- `node --check bun-binary-io.js plugin/bun-binary-io.js plugin/patch-cli.js tests/*.test.js`
+- `node --test tests/*.test.js`：`25/25` 通过
+
 ## [2.2.0] - 2026-04-13
 
 ### 新增

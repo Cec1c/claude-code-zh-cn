@@ -13,7 +13,7 @@
   },
   {
     "en": " (required to block unix domain sockets)",
-    "zh": " （阻止 unix domain socket 所需）"
+    "zh": " （阻止 Unix domain socket 所需）"
   },
   {
     "en": " (truncated)",
@@ -169,7 +169,7 @@
   },
   {
     "en": " · Enter to view",
-    "zh": " · Enter 查看"
+    "zh": " · 按 Enter 查看"
   },
   {
     "en": " · Explore the codebase thoroughly",
@@ -289,7 +289,7 @@
   },
   {
     "en": "/btw for side question",
-    "zh": "/btw 插个问题"
+    "zh": "/btw 题外问题"
   },
   {
     "en": "/keybindings to customize",
@@ -373,11 +373,11 @@
   },
   {
     "en": "Add Marketplace",
-    "zh": "添加 Marketplace"
+    "zh": "添加插件市场"
   },
   {
     "en": "Add a marketplace first using the Marketplaces tab.",
-    "zh": "请先在市场标签页添加一个市场。"
+    "zh": "请先在插件市场标签页中添加一个插件市场。"
   },
   {
     "en": "Additional CA cert(s)",
@@ -409,11 +409,11 @@
   },
   {
     "en": "All plugins from our internal marketplace are vetted and approved.",
-    "zh": "我们内部市场的所有插件都经过审查和批准。"
+    "zh": "我们内部插件市场的所有插件都经过审查和批准。"
   },
   {
     "en": "All plugins from this marketplace are already installed.",
-    "zh": "此市场的所有插件都已安装。"
+    "zh": "此插件市场的所有插件都已安装。"
   },
   {
     "en": "Allow external CLAUDE.md file imports?",
@@ -429,7 +429,7 @@
   },
   {
     "en": "Allowed Unix Sockets:",
-    "zh": "允许的 Unix Socket："
+    "zh": "允许的 Unix domain socket："
   },
   {
     "en": "Allowed by auto mode classifier",
@@ -485,7 +485,7 @@
   },
   {
     "en": "Ask a quick side question without interrupting the main conversation",
-    "zh": "问个旁路问题，不打断主对话"
+    "zh": "提一个题外问题，不打断主对话"
   },
   {
     "en": "Ask a repository admin to run this command if setup fails",
@@ -553,7 +553,7 @@
   },
   {
     "en": "Auto-update enabled. Claude Code will automatically update this marketplace and its installed plugins.",
-    "zh": "自动更新已启用。Claude Code 会自动更新此市场及其已安装的插件。"
+    "zh": "自动更新已启用。Claude Code 会自动更新此插件市场及其已安装的插件。"
   },
   {
     "en": "Auto-updating…",
@@ -689,7 +689,7 @@
   },
   {
     "en": "Cannot block unix domain sockets (see Dependencies tab)",
-    "zh": "无法阻止 unix domain socket（参见依赖标签页）"
+    "zh": "无法阻止 Unix domain socket（参见依赖标签页）"
   },
   {
     "en": "Capabilities: ",
@@ -713,7 +713,7 @@
   },
   {
     "en": "Check for new plugins later or add more marketplaces.",
-    "zh": "稍后检查新插件或添加更多市场。"
+    "zh": "稍后再检查新插件，或添加更多插件市场。"
   },
   {
     "en": "Check your internet connection",
@@ -1209,7 +1209,7 @@
   },
   {
     "en": "Discover plugins",
-    "zh": "发现 plugin"
+    "zh": "发现插件"
   },
   {
     "en": "Do you want to make this edit to",
@@ -1221,7 +1221,7 @@
   },
   {
     "en": "Do you want to use this API key?",
-    "zh": "要使用此 API key 吗？"
+    "zh": "要使用此 API 密钥吗？"
   },
   {
     "en": "Do you wish to disable auto-connect to IDE?",
@@ -1265,7 +1265,7 @@
   },
   {
     "en": "Edit and press Enter to retry, or Esc to cancel",
-    "zh": "编辑后按 Enter 重试，或 Esc 取消"
+    "zh": "编辑后按 Enter 重试，或按 Esc 取消"
   },
   {
     "en": "Edit color",
@@ -1365,27 +1365,27 @@
   },
   {
     "en": "Enter to apply",
-    "zh": "Enter 应用"
+    "zh": "按 Enter 应用"
   },
   {
     "en": "Enter to auth",
-    "zh": "回车认证"
+    "zh": "按 Enter 认证"
   },
   {
     "en": "Enter to confirm · Esc to cancel",
-    "zh": "Enter 确认 · Esc 取消"
+    "zh": "按 Enter 确认 · 按 Esc 取消"
   },
   {
     "en": "Enter to confirm · Esc to skip",
-    "zh": "Enter 确认 · Esc 跳过"
+    "zh": "按 Enter 确认 · 按 Esc 跳过"
   },
   {
     "en": "Enter to select · Esc to continue",
-    "zh": "回车选择 · Esc 继续"
+    "zh": "按 Enter 选择 · 按 Esc 继续"
   },
   {
     "en": "Enter to view",
-    "zh": "Enter 查看"
+    "zh": "按 Enter 查看"
   },
   {
     "en": "Enter view",
@@ -1509,7 +1509,7 @@
   },
   {
     "en": "Failed to load marketplace data.",
-    "zh": "加载 marketplace 数据失败。"
+    "zh": "加载插件市场数据失败。"
   },
   {
     "en": "Failed to resume agent: ",
@@ -1521,7 +1521,7 @@
   },
   {
     "en": "Failed to save marketplace retry info · Check ~/.claude.json permissions",
-    "zh": "保存市场重试信息失败 · 检查 ~/.claude.json 权限"
+    "zh": "保存插件市场重试信息失败 · 检查 ~/.claude.json 权限"
   },
   {
     "en": "Failed to spawn process - check command and permissions",
@@ -1637,7 +1637,7 @@
   },
   {
     "en": "Git is required to install marketplaces.",
-    "zh": "安装市场需要 git。"
+    "zh": "安装插件市场需要 Git。"
   },
   {
     "en": "Go back",
@@ -2013,7 +2013,7 @@
   },
   {
     "en": "Manage marketplaces",
-    "zh": "管理 marketplace"
+    "zh": "管理插件市场"
   },
   {
     "en": "Manage permissions",
@@ -2649,7 +2649,7 @@
   },
   {
     "en": "Remove marketplace",
-    "zh": "移除市场"
+    "zh": "移除插件市场"
   },
   {
     "en": "Remove worktree",
@@ -2813,11 +2813,11 @@
   },
   {
     "en": "Sandbox is not enabled",
-    "zh": "Sandbox 未启用"
+    "zh": "沙盒未启用"
   },
   {
     "en": "Sandbox is not enabled. Enable sandbox to configure override settings.",
-    "zh": "沙箱未启用。启用沙箱后才能配置覆盖设置。"
+    "zh": "沙盒未启用。启用沙盒后才能配置覆盖设置。"
   },
   {
     "en": "Save and close editor to continue...",
@@ -2909,7 +2909,7 @@
   },
   {
     "en": "Select marketplace",
-    "zh": "选择 marketplace"
+    "zh": "选择插件市场"
   },
   {
     "en": "Select model",
@@ -3157,7 +3157,7 @@
   },
   {
     "en": "Switch to the Marketplaces tab to view allowed sources.",
-    "zh": "切换到市场标签页查看允许的来源。"
+    "zh": "切换到插件市场标签页查看允许的来源。"
   },
   {
     "en": "Switched to worktree on branch ",
@@ -3417,7 +3417,7 @@
   },
   {
     "en": "Update marketplace",
-    "zh": "更新市场"
+    "zh": "更新插件市场"
   },
   {
     "en": "Update now",
@@ -3441,7 +3441,7 @@
   },
   {
     "en": "Updating marketplace…",
-    "zh": "正在更新 marketplace…"
+    "zh": "正在更新插件市场…"
   },
   {
     "en": "Updating…",
@@ -3465,7 +3465,7 @@
   },
   {
     "en": "Use /btw to ask a quick side question without interrupting Claude's current work",
-    "zh": "使用 /btw 问个旁路问题，不打断 Claude 当前工作"
+    "zh": "用 /btw 提一个题外问题，不打断 Claude 当前工作"
   },
   {
     "en": "Use /clear to start fresh when switching topics and free up context",
@@ -3733,7 +3733,7 @@
   },
   {
     "en": "Yes, allow all edits in ",
-    "zh": "是，允许所有编辑在 "
+    "zh": "是，允许在以下位置进行所有编辑："
   },
   {
     "en": "Yes, allow external imports",
@@ -3745,7 +3745,7 @@
   },
   {
     "en": "Yes, and always allow access to ",
-    "zh": "是，并始终允许访问 "
+    "zh": "是，并始终允许访问："
   },
   {
     "en": "Yes, and bypass permissions",
@@ -3841,11 +3841,11 @@
   },
   {
     "en": "Your organization policy does not allow any external marketplaces.",
-    "zh": "你的组织策略不允许任何外部市场。"
+    "zh": "你的组织策略不允许任何外部插件市场。"
   },
   {
     "en": "Your organization restricts which marketplaces can be added.",
-    "zh": "你的组织限制了可以添加的市场。"
+    "zh": "你的组织限制了可添加的插件市场。"
   },
   {
     "en": "Your responses should be short and concise.",
@@ -4061,7 +4061,7 @@
   },
   {
     "en": "↑/↓ to select · Enter to continue",
-    "zh": "↑/↓ 选择 · Enter 继续"
+    "zh": "↑/↓ 选择 · 按 Enter 继续"
   },
   {
     "en": "└ Failed to fetch versions",
@@ -4081,7 +4081,7 @@
   },
   {
     "en": "✓ Anthropic marketplace installed · /plugin to see available plugins",
-    "zh": "✓ Anthropic 市场已安装 · /plugin 查看可用插件"
+    "zh": "✓ Anthropic 插件市场已安装 · 用 /plugin 查看可用插件"
   },
   {
     "en": "✓ Authentication token created successfully!",
@@ -4213,7 +4213,7 @@
   },
   {
     "en": "Include available plugins from marketplaces (requires --json)",
-    "zh": "包含市场中可用的插件（需要 --json）"
+    "zh": "包含插件市场中的可用插件（需要 --json）"
   },
   {
     "en": "Tab ID to identify which tab group this operation applies to",
@@ -5061,7 +5061,7 @@
   },
   {
     "en": "No marketplaces configured.",
-    "zh": "没有配置市场。"
+    "zh": "尚未配置任何插件市场。"
   },
   {
     "en": "No custom commands found",
@@ -5089,11 +5089,11 @@
   },
   {
     "en": "Removed from marketplace · reason:",
-    "zh": "已从市场移除 · 原因："
+    "zh": "已从插件市场移除 · 原因："
   },
   {
     "en": "Removed from marketplace",
-    "zh": "已从市场移除"
+    "zh": "已从插件市场移除"
   },
   {
     "en": "Removed empty socket directory",
@@ -5105,19 +5105,19 @@
   },
   {
     "en": "Adding marketplace to configuration…",
-    "zh": "正在将市场添加到配置…"
+    "zh": "正在将插件市场添加到配置中…"
   },
   {
     "en": "Adding marketplace...",
-    "zh": "正在添加市场..."
+    "zh": "正在添加插件市场..."
   },
   {
     "en": "Loading marketplaces...",
-    "zh": "正在加载市场..."
+    "zh": "正在加载插件市场..."
   },
   {
     "en": "Loading marketplaces…",
-    "zh": "正在加载市场…"
+    "zh": "正在加载插件市场…"
   },
   {
     "en": "Loading installed plugins…",
@@ -5365,15 +5365,15 @@
   },
   {
     "en": "Enter to continue ·",
-    "zh": "Enter 继续 ·"
+    "zh": "按 Enter 继续 ·"
   },
   {
     "en": "Enter to select ·",
-    "zh": "Enter 选择 ·"
+    "zh": "按 Enter 选择 ·"
   },
   {
     "en": "Enter to continue",
-    "zh": "Enter 继续"
+    "zh": "按 Enter 继续"
   },
   {
     "en": "Tab to switch focus",
@@ -5445,7 +5445,7 @@
   },
   {
     "en": "Enter marketplace source:",
-    "zh": "输入市场来源："
+    "zh": "输入插件市场来源："
   },
   {
     "en": "Enter new session name",

@@ -164,6 +164,65 @@ printf 'invoked' > ${JSON.stringify(invokedFile)}
   assert.equal(fs.existsSync(invokedFile), true, "hook did not trigger re-patch for same Claude Code version");
 });
 
+test("session-start does not fall back to npm patching when helper reports unknown", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "cczh-hook-unknown-"));
+  const pluginRoot = path.join(tmp, "plugin");
+  const fakeBin = path.join(tmp, "bin");
+  const cliFile = path.join(tmp, "lib", "node_modules", "@anthropic-ai", "claude-code", "cli.js");
+  const invokedFile = path.join(tmp, "patch-invoked");
+
+  fs.mkdirSync(pluginRoot, { recursive: true });
+  fs.mkdirSync(fakeBin, { recursive: true });
+  fs.mkdirSync(path.dirname(cliFile), { recursive: true });
+
+  fs.writeFileSync(cliFile, "#!/usr/bin/env node\n// Version: 2.1.101\n");
+  fs.writeFileSync(path.join(fakeBin, "claude"), "#!/usr/bin/env bash\n");
+  fs.chmodSync(path.join(fakeBin, "claude"), 0o755);
+
+  fs.writeFileSync(
+    path.join(pluginRoot, "bun-binary-io.js"),
+    `#!/usr/bin/env node
+const cmd = process.argv[2];
+if (cmd === "detect") {
+  process.stdout.write("unknown");
+} else if (cmd === "check-deps") {
+  process.stdout.write("missing");
+}
+`
+  );
+  fs.writeFileSync(
+    path.join(pluginRoot, "patch-cli.sh"),
+    `#!/usr/bin/env bash
+set -euo pipefail
+printf '1'
+printf 'invoked' > ${JSON.stringify(invokedFile)}
+`
+  );
+  fs.chmodSync(path.join(pluginRoot, "patch-cli.sh"), 0o755);
+  fs.writeFileSync(path.join(pluginRoot, "manifest.json"), JSON.stringify({ version: "2.2.0" }));
+  fs.writeFileSync(path.join(pluginRoot, "patch-cli.js"), "console.log('patch');\n");
+  fs.writeFileSync(path.join(pluginRoot, "cli-translations.json"), "[]\n");
+  fs.writeFileSync(
+    path.join(pluginRoot, "compute-patch-revision.sh"),
+    "#!/usr/bin/env bash\ncompute_patch_revision(){ printf 'test-revision'; }\n"
+  );
+  fs.chmodSync(path.join(pluginRoot, "compute-patch-revision.sh"), 0o755);
+
+  const result = spawnSync("bash", [hookPath], {
+    cwd: repoRoot,
+    env: {
+      ...process.env,
+      CLAUDE_PLUGIN_ROOT: pluginRoot,
+      PATH: `${fakeBin}:${process.env.PATH}`,
+    },
+    input: "\n",
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(fs.existsSync(invokedFile), false, "helper=unknown should not fall back to npm patching");
+});
+
 test("session-start auto-updates only to latest release tag without mutating source repo checkout", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "cczh-autoupdate-"));
   const home = path.join(tmp, "home");
@@ -457,4 +516,72 @@ printf '1'
   assert.match(currentBinary, /PATCHED/, "current binary should be re-patched");
   assert.match(refreshedBackup, /Version: 2\.1\.96/, "backup should refresh to upgraded version before re-patch");
   assert.match(updatedMarker, /^2\.1\.96\|/, "marker should update to the upgraded version");
+});
+
+test("session-start native path skips re-patch cleanly when node-lief deps are missing", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "cczh-native-node-lief-missing-"));
+  const home = path.join(tmp, "home");
+  const pluginRoot = path.join(home, ".claude", "plugins", "claude-code-zh-cn");
+  const fakeBin = path.join(tmp, "bin");
+  const fakeBinary = path.join(tmp, "claude-native");
+  const invokedFile = path.join(tmp, "patch-invoked");
+  const markerFile = path.join(pluginRoot, ".patched-version");
+
+  fs.mkdirSync(pluginRoot, { recursive: true });
+  fs.mkdirSync(fakeBin, { recursive: true });
+
+  copyTree(path.join(repoRoot, "plugin"), pluginRoot);
+  fs.writeFileSync(path.join(pluginRoot, "manifest.json"), JSON.stringify({ version: "2.2.0" }));
+  fs.writeFileSync(
+    path.join(pluginRoot, "bun-binary-io.js"),
+    `#!/usr/bin/env node
+const fs = require("node:fs");
+function readVersion(file) {
+  const text = fs.readFileSync(file, "utf8");
+  const match = text.match(/^\\/\\/ Version: (.+)$/m);
+  return match ? match[1] : "";
+}
+const cmd = process.argv[2];
+if (cmd === "detect") {
+  process.stdout.write("native-bun:" + fs.realpathSync(process.argv[3]));
+} else if (cmd === "check-deps") {
+  process.stdout.write("missing");
+} else if (cmd === "version") {
+  process.stdout.write(readVersion(process.argv[3]));
+}
+`
+  );
+  fs.writeFileSync(
+    path.join(pluginRoot, "patch-cli.sh"),
+    `#!/usr/bin/env bash
+set -euo pipefail
+printf '1'
+printf 'invoked' > ${JSON.stringify(invokedFile)}
+`
+  );
+  fs.chmodSync(path.join(pluginRoot, "patch-cli.sh"), 0o755);
+
+  fs.writeFileSync(fakeBinary, "// Version: 2.1.101\nORIGINAL\n");
+  fs.chmodSync(fakeBinary, 0o755);
+  fs.symlinkSync(fakeBinary, path.join(fakeBin, "claude"));
+  fs.writeFileSync(markerFile, "2.1.92|stale-revision\n");
+
+  const result = spawnSync("bash", [hookPath], {
+    cwd: repoRoot,
+    env: {
+      ...process.env,
+      HOME: home,
+      CLAUDE_PLUGIN_ROOT: pluginRoot,
+      PATH: `${fakeBin}:${process.env.PATH}`,
+      ZH_CN_UPDATE_CHECK_INTERVAL_SECONDS: "0",
+      GIT_TERMINAL_PROMPT: "0",
+    },
+    input: "\n",
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.equal(fs.existsSync(invokedFile), false, "missing deps should skip native re-patch");
+  assert.equal(fs.readFileSync(markerFile, "utf8").trim(), "2.1.92|stale-revision");
+  assert.doesNotThrow(() => JSON.parse(result.stdout));
 });

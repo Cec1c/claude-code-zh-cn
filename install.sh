@@ -20,6 +20,8 @@ SOURCE_REPO_FILE="$PLUGIN_DST/.source-repo"
 LAST_UPDATE_CHECK_FILE="$PLUGIN_DST/.last-update-check"
 SOURCE_REPO_OVERRIDE="${ZH_CN_SOURCE_REPO:-}"
 SKIP_BANNER="${ZH_CN_SKIP_BANNER:-0}"
+CLI_PATCH_STATUS_SUMMARY="已跳过（未执行 CLI Patch）"
+CLI_PATCH_STATUS_OK=false
 
 source "$SCRIPT_DIR/compute-patch-revision.sh"
 
@@ -57,9 +59,14 @@ print_completion() {
     echo -e "  ${GREEN}✓${NC} 会话启动 Hook → 中文上下文注入"
     echo -e "  ${GREEN}✓${NC} 通知 Hook → 中文翻译"
     echo -e "  ${GREEN}✓${NC} 输出风格 → Chinese"
-    echo -e "  ${GREEN}✓${NC} CLI Patch → 回复耗时动词 + /btw + /clear 提示中文化"
     echo -e "  ${GREEN}✓${NC} 自动重 patch → Claude Code 更新后首次会话自动修复"
     echo -e "  ${GREEN}✓${NC} 自动更新 → 插件发布新 Release 后自动同步"
+
+    if [ "$CLI_PATCH_STATUS_OK" = true ]; then
+        echo -e "  ${GREEN}✓${NC} CLI Patch → ${CLI_PATCH_STATUS_SUMMARY}"
+    else
+        echo -e "  ${YELLOW}!${NC} CLI Patch → ${CLI_PATCH_STATUS_SUMMARY}"
+    fi
 
     local install_info
     install_info="$(detect_installation)"
@@ -265,12 +272,12 @@ detect_installation() {
         local result
         result="$(node "$PLUGIN_SRC/bun-binary-io.js" detect "$claude_bin" 2>/dev/null || true)"
 
-        # helper 成功执行：有结果就用，unknown 就跳过（不认识的安装类型）
-        if [ -n "$result" ] && [ "$result" != "unknown" ]; then
+        # helper 成功执行：有结果就用；unknown 也向上传递，供上层决定如何提示
+        if [ -n "$result" ]; then
             printf "%s" "$result"
             return
         fi
-        # unknown 或 helper 执行失败 → 不 patch
+        # helper 执行失败 → 不 patch
         printf ""
         return
     fi
@@ -341,6 +348,12 @@ patch_npm_cli() {
 
     patch_count=$("$PLUGIN_SRC/patch-cli.sh" "$cli_file" 2>/dev/null || echo "0")
     echo -e "${GREEN}已 patch cli.js（${patch_count:-0} 处硬编码文字）${NC}"
+    if [ "${patch_count:-0}" = "0" ]; then
+        CLI_PATCH_STATUS_SUMMARY="cli.js 无新增改动（可能已是最新状态）"
+    else
+        CLI_PATCH_STATUS_SUMMARY="cli.js 中文化（${patch_count:-0} 处硬编码文字）"
+    fi
+    CLI_PATCH_STATUS_OK=true
 
     patch_revision=$(compute_patch_revision "$PLUGIN_DST" 2>/dev/null || true)
     if [ -n "${patch_revision:-}" ] && [ -n "${current_version:-}" ]; then
@@ -365,6 +378,7 @@ patch_native_binary() {
         echo -e "${YELLOW}需要安装 node-lief 来支持原生二进制 patch${NC}"
         echo -e "  运行: ${GREEN}npm install -g node-lief${NC}"
         echo -e "  然后重新运行 ./install.sh"
+        CLI_PATCH_STATUS_SUMMARY="已跳过（官方安装器 CLI Patch 需要 node-lief）"
         return
     fi
 
@@ -392,6 +406,7 @@ patch_native_binary() {
     # 提取 → patch → 写回
     node "$PLUGIN_SRC/bun-binary-io.js" extract "$binary_path" "$tmp_js" || {
         echo -e "${RED}提取 JS 失败${NC}"
+        CLI_PATCH_STATUS_SUMMARY="已跳过（原生二进制提取失败）"
         rm -f "$tmp_js"
         return
     }
@@ -403,12 +418,17 @@ patch_native_binary() {
         node "$PLUGIN_SRC/bun-binary-io.js" repack "$binary_path" "$tmp_js" || {
             echo -e "${RED}写回二进制失败，正在从备份恢复...${NC}"
             cp "$backup_path" "$binary_path" 2>/dev/null || true
+            CLI_PATCH_STATUS_SUMMARY="已跳过（原生二进制写回失败）"
             rm -f "$tmp_js"
             return
         }
         echo -e "${GREEN}已 patch 原生二进制（${patch_count} 处硬编码文字）${NC}"
+        CLI_PATCH_STATUS_SUMMARY="原生二进制中文化（${patch_count} 处硬编码文字）"
+        CLI_PATCH_STATUS_OK=true
     else
         echo -e "${YELLOW}未找到需要 patch 的内容${NC}"
+        CLI_PATCH_STATUS_SUMMARY="原生二进制无新增改动（可能已是最新状态）"
+        CLI_PATCH_STATUS_OK=true
     fi
 
     rm -f "$tmp_js"
@@ -428,6 +448,7 @@ initial_patch_cli() {
     install_info="$(detect_installation)"
     if [ -z "$install_info" ]; then
         echo -e "${YELLOW}未找到 Claude Code，跳过 patch 步骤${NC}"
+        CLI_PATCH_STATUS_SUMMARY="已跳过（未检测到 Claude Code）"
         return
     fi
 
@@ -441,8 +462,13 @@ initial_patch_cli() {
         native-bun)
             patch_native_binary "$target"
             ;;
+        unknown)
+            echo -e "${YELLOW}当前安装方式暂不支持 CLI Patch，已跳过此步骤${NC}"
+            CLI_PATCH_STATUS_SUMMARY="已跳过（当前安装方式暂不支持 CLI Patch）"
+            ;;
         *)
             echo -e "${YELLOW}未识别的安装类型: $kind${NC}"
+            CLI_PATCH_STATUS_SUMMARY="已跳过（未识别的安装类型: $kind）"
             ;;
     esac
 }
