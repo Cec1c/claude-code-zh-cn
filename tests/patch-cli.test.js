@@ -86,6 +86,31 @@ test("approval prompt patch keeps dialog text and key hints in Chinese", () => {
   assert.match(patched, / · 按 ctrl\+e 说明/);
 });
 
+test("fragment migrations use targeted structural patches instead of broad english shards", () => {
+  const patched = patchFixture([
+    'let quick=YX.default.createElement(V,null,"• Cmd+Esc",YX.default.createElement(V,{dimColor:!0}," for Quick Launch"));',
+    'let plan=IM.createElement(u,{marginTop:1},IM.createElement(V,{dimColor:!0},\'"/plan open"\'),IM.createElement(V,{dimColor:!0}," to edit this plan in "),IM.createElement(V,{bold:!0,dimColor:!0},Y));',
+    'let saveShortcut=i_.default.createElement(u,{marginTop:2},i_.default.createElement(V,{color:"success"},"Press ",g," or ",c," to save,"," ",i_.default.createElement(V,{bold:!0},"e")," to save and edit"));',
+    'let clearHint=[b8.createElement(V,{color:"suggestion"},"/clear"),b8.createElement(V,{dimColor:!0}," to save "),b8.createElement(V,{color:"suggestion"},UA," tokens")];',
+    'let status=" ready · shift+↓ to view";',
+    "",
+  ]);
+
+  assert.equal(patched.includes(" for Quick Launch"), false, patched);
+  assert.equal(patched.includes(" to edit this plan in "), false, patched);
+  assert.equal(patched.includes(" to save "), false, patched);
+  assert.equal(patched.includes(" to save and edit"), false, patched);
+  assert.equal(patched.includes(" ready · shift+↓ to view"), false, patched);
+  assert.match(patched, /"• 快速启动"/);
+  assert.match(patched, /" · Cmd\+Esc"/);
+  assert.match(patched, /"在 "/);
+  assert.match(patched, /' 中用 "\/plan open" 编辑此计划'/);
+  assert.match(patched, /"按 ",g," 或 ",c," 保存，按 ",i_\.default\.createElement/);
+  assert.match(patched, /" 保存并编辑"/);
+  assert.match(patched, /"\/clear"\),b8\.createElement\(V,\{dimColor:!0\}," 保存 "\)/);
+  assert.match(patched, /" 已就绪 · 按 shift\+↓ 查看"/);
+});
+
 test("string translation must not rewrite identifiers or object keys across code boundaries", () => {
   const patched = patchFixture([
     'const modes={external:"acceptEdits"},bypassPermissions:{title:"Bypass Permissions",shortTitle:"Bypass"};',

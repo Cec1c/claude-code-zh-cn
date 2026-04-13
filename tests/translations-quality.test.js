@@ -50,9 +50,13 @@ test("high-visibility translations use the curated wording", () => {
     ["Enter to apply", "按 Enter 应用"],
     ["Enter to auth", "按 Enter 进行认证"],
     ["Enter to confirm · Esc to cancel", "按 Enter 确认 · 按 Esc 取消"],
+    ["Enter to copy link · Esc to cancel", "按 Enter 复制链接 · 按 Esc 取消"],
+    ["Enter to confirm · Esc to exit", "按 Enter 确认 · 按 Esc 退出"],
     ["Enter to confirm · Esc to skip", "按 Enter 确认 · 按 Esc 跳过"],
     ["Enter to continue", "按 Enter 继续"],
+    ["Enter to run · Esc to go back", "按 Enter 运行 · 按 Esc 返回"],
     ["Enter to select ·", "按 Enter 选择 ·"],
+    ["Enter to submit · Esc to cancel", "按 Enter 提交 · 按 Esc 取消"],
     [" · /plugin for details", " · 用 /plugin 查看详情"],
     [" · Run /reload-plugins to apply", " · 运行 /reload-plugins 以生效"],
     ["Run /reload-plugins to apply changes", "运行 /reload-plugins 以应用更改"],
@@ -64,6 +68,7 @@ test("high-visibility translations use the curated wording", () => {
     ["Press Enter or Esc to go back", "按 Enter 或 Esc 返回"],
     ["Press ↑↓ to navigate · Enter to select · Esc to go back", "按 ↑↓ 导航 · 按 Enter 选择 · 按 Esc 返回"],
     ["Press ↑↓ to navigate, Enter to select, Esc to cancel", "按 ↑↓ 导航，按 Enter 选择，按 Esc 取消"],
+    ["Hit Enter to queue up additional messages while Claude is working.", "Claude 工作时，按 Enter 可继续排队输入消息。"],
     ["Your bash commands will be sandboxed. Disable with /sandbox.", "你的 bash 命令将在沙箱中运行。可用 /sandbox 禁用。"],
     ["say its name to get its take · /buddy pet · /buddy off", "喊它的名字听听它的看法 · /buddy pet · /buddy off"],
     ["Use /clear to start fresh when switching topics and free up context", "切换话题时可用 /clear 重新开始，并释放上下文"],
@@ -76,6 +81,7 @@ test("high-visibility translations use the curated wording", () => {
     ["When you see evidence of sandbox-caused failure:", "当你看到沙盒导致失败的迹象时："],
     ["Try running /plugin to manually install the think-back plugin.", "可以尝试运行 /plugin 手动安装 think-back 插件。"],
     ["plugin - Manage installed plugins", "插件 - 管理已安装插件"],
+    ["↑/↓ to change · Enter to apply · Esc to cancel", "按 ↑/↓ 切换 · 按 Enter 应用 · 按 Esc 取消"],
   ]);
 
   for (const [en, zh] of expected) {
@@ -95,6 +101,34 @@ test("upstream compat config keeps the required english sentinels", () => {
   ];
   const sentinels = loadCompatConfig().checks.sentinels.map((entry) => entry.pattern);
   assert.deepEqual(sentinels, expected);
+});
+
+test("high-risk fragment inventory stays reduced to the approved remainder", () => {
+  const map = translationMap();
+  const removed = [
+    "Enter to",
+    " to save ",
+    " to edit this plan in ",
+    " for Quick Launch",
+    " ready · shift+↓ to view",
+  ];
+  const remaining = [
+    " or ",
+    " back",
+    " navigate · ",
+    " to get started",
+    " to reference files or lines in your input",
+  ];
+
+  for (const fragment of removed) {
+    assert.equal(map.has(fragment), false, `fragment should be migrated away: ${fragment}`);
+  }
+
+  assert.deepEqual(
+    remaining.filter((fragment) => map.has(fragment)),
+    remaining,
+    "approved fragment remainder drifted"
+  );
 });
 
 test("translations avoid legacy half-translated phrasing for key UX terms", () => {

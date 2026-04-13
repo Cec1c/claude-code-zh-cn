@@ -399,6 +399,8 @@ const specialSplitLiteralTranslations = [
 const specialLiteralTranslations = [
     { en: "Tab to amend", zh: "按 Tab 修改" },
     { en: "ctrl+e to explain", zh: "按 ctrl+e 说明" },
+    { en: " ready · shift+↓ to view", zh: " 已就绪 · 按 shift+↓ 查看" },
+    { en: "Failed to save ", zh: "保存失败：" },
 ];
 
 // === 特殊 patch（基于精确代码模式匹配，安全）===
@@ -488,6 +490,32 @@ tryRegexReplace(/\$\{[^}]+\}\s+Idle(?=[`"])/g, (match) =>
 tryReplace('`${O} for ${M}`', '`${O} ${M}`');
 tryRegexReplace(/&&`\$\{[^}]+\} for \$\{[^}]+\}`/g, (match) =>
     match.replace(" for ", " ")
+);
+
+// 4e. /clear 省上下文提示（split fragment → 稳定模板）
+tryRegexReplace(
+    /([A-Za-z0-9_$]+(?:\.default)?)\.createElement\(([^,]+),\{color:"suggestion"\},"\/clear"\),\1\.createElement\(\2,\{dimColor:!0\}," to save "\),\1\.createElement\(\2,\{color:"suggestion"\},([A-Za-z0-9_$]+)," tokens"\)/g,
+    (match, factory, component, tokenCount) =>
+        `${factory}.createElement(${component},{color:"suggestion"},"/clear"),${factory}.createElement(${component},{dimColor:!0}," 保存 "),${factory}.createElement(${component},{color:"suggestion"},${tokenCount}," tokens")`
+);
+
+// 5. 保存并编辑快捷键提示（split fragment → 稳定模板）
+tryRegexReplace(
+    /([A-Za-z0-9_$]+(?:\.default)?)\.createElement\(([^,]+),\{color:"success"\},"Press ",([A-Za-z0-9_$]+)," or ",([A-Za-z0-9_$]+)," to save,"," ",\1\.createElement\(\2,\{bold:!0\},"e"\)," to save and edit"\)/g,
+    (match, factory, component, primaryKey, secondaryKey) =>
+        `${factory}.createElement(${component},{color:"success"},"按 ",${primaryKey}," 或 ",${secondaryKey}," 保存，按 ",${factory}.createElement(${component},{bold:!0},"e")," 保存并编辑")`
+);
+
+// 6. Quick Launch / plan open 等单点高风险 UI 片段迁移到结构化 patch
+tryRegexReplace(
+    /([A-Za-z0-9_$]+(?:\.default)?)\.createElement\(([^,]+),null,"• Cmd\+Esc",\1\.createElement\(\2,\{dimColor:!0\}," for Quick Launch"\)\)/g,
+    (match, factory, component) =>
+        `${factory}.createElement(${component},null,"• 快速启动",${factory}.createElement(${component},{dimColor:!0}," · Cmd+Esc"))`
+);
+tryRegexReplace(
+    /([A-Za-z0-9_$]+(?:\.default)?)\.createElement\(([^,]+),\{marginTop:1\},\1\.createElement\(([^,]+),\{dimColor:!0\},['"]"\/plan open"['"]\),\1\.createElement\(\3,\{dimColor:!0\}," to edit this plan in "\),\1\.createElement\(\3,\{bold:!0,dimColor:!0\},([A-Za-z0-9_$]+)\)\)/g,
+    (match, factory, containerComponent, textComponent, terminalName) =>
+        `${factory}.createElement(${containerComponent},{marginTop:1},${factory}.createElement(${textComponent},{dimColor:!0},"在 "),${factory}.createElement(${textComponent},{bold:!0,dimColor:!0},${terminalName}),${factory}.createElement(${textComponent},{dimColor:!0},' 中用 "/plan open" 编辑此计划'))`
 );
 
 // === 逐条翻译：只替换真实的双引号字符串字面量 ===
