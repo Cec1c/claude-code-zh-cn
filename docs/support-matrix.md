@@ -12,7 +12,7 @@
 
 | Channel | Tier | Version window | Representative verification | Notes |
 | --- | --- | --- | --- | --- |
-| npm global install | stable | 2.1.92 - 2.1.104 | 2.1.92 PASS · 2.1.97 PASS · 2.1.104 PASS | PATH 优先 launcher + session-start 二层兜底，适用于 npm 全局安装。 |
+| npm global install | stable | 2.1.92 - 2.1.107 | 2.1.92 PASS · 2.1.97 PASS · 2.1.104 PASS · 2.1.107 PASS | PATH 优先 launcher + session-start 二层兜底，适用于 npm 全局安装。 |
 | macOS official installer | experimental | 2.1.104 - 2.1.104 | 2.1.104 PASS | 依赖 native repack / session-start；prelaunch launcher 不覆盖原生二进制。 |
 | Linux official installer | unsupported | - | - | 当前不支持 Linux 官方安装器；请改用 npm 路径。 |
 
@@ -23,6 +23,7 @@
 | 2.1.92 | pass | 1409 | - |
 | 2.1.97 | pass | 1405 | - |
 | 2.1.104 | pass | 1368 | - |
+| 2.1.107 | pass | 1341 | - |
 
-Summary: 3 pass / 0 fail
+Summary: 4 pass / 0 fail
 
