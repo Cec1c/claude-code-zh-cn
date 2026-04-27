@@ -144,23 +144,21 @@ if ($SourceRepo -and (Test-Path "$SourceRepo\.git") -and $env:ZH_CN_DISABLE_AUTO
             $LatestVersion = $LatestTag -replace '^v', ''
             if ($LatestTag -and $LatestVersion -and $LocalVersion -match '^\d+\.\d+\.\d+' -and $LatestVersion -match '^\d+\.\d+\.\d+') {
                 if (Test-VersionIsNewer $LocalVersion $LatestVersion) {
-                    # 尝试用 bash 执行 update-only install（需 Git Bash）
+                    # 原生 PowerShell 自动更新：调用 install.ps1 -UpdateOnly -SkipBanner
                     $stagingDir = Join-Path ([System.IO.Path]::GetTempPath()) "cczh-update-${PID}"
                     try {
                         New-Item -ItemType Directory -Force -Path $stagingDir | Out-Null
                         Push-Location $SourceRepo
                         try {
-                            git archive --format=tar $LatestTag install.sh compute-patch-revision.sh settings-overlay.json verbs tips plugin 2>$null | tar -xf - -C $stagingDir 2>$null
+                            git archive --format=tar $LatestTag install.ps1 install.sh compute-patch-revision.sh settings-overlay.json verbs tips plugin 2>$null | tar -xf - -C $stagingDir 2>$null
                         } finally { Pop-Location }
-                        if ((Test-Path "$stagingDir\install.sh") -and (Test-Path "$stagingDir\settings-overlay.json") -and (Test-Path "$stagingDir\plugin\manifest.json")) {
-                            if (Get-Command bash -ErrorAction SilentlyContinue) {
-                                $env:CLAUDE_PLUGIN_ROOT = $PluginRoot
-                                $env:ZH_CN_SOURCE_REPO = $SourceRepo
-                                $env:ZH_CN_SKIP_BANNER = "1"
-                                bash "$stagingDir\install.sh" --update-only 2>$null
-                                Remove-Item Env:\CLAUDE_PLUGIN_ROOT, Env:\ZH_CN_SOURCE_REPO, Env:\ZH_CN_SKIP_BANNER -ErrorAction SilentlyContinue
-                                $AutoUpdateMsg = "插件已从 v${LocalVersion} 更新到 v${LatestVersion}"
-                            }
+                        if ((Test-Path "$stagingDir\install.ps1") -and (Test-Path "$stagingDir\settings-overlay.json") -and (Test-Path "$stagingDir\plugin\manifest.json")) {
+                            $env:CLAUDE_PLUGIN_ROOT = $PluginRoot
+                            $env:ZH_CN_SOURCE_REPO = $SourceRepo
+                            $env:ZH_CN_SKIP_BANNER = "1"
+                            powershell -NoProfile -ExecutionPolicy Bypass -File "$stagingDir\install.ps1" -UpdateOnly -SkipBanner 2>$null
+                            Remove-Item Env:\CLAUDE_PLUGIN_ROOT, Env:\ZH_CN_SOURCE_REPO, Env:\ZH_CN_SKIP_BANNER -ErrorAction SilentlyContinue
+                            $AutoUpdateMsg = "插件已从 v${LocalVersion} 更新到 v${LatestVersion}"
                         }
                     } catch {} finally {
                         if (Test-Path $stagingDir) {
