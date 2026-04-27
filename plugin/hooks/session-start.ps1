@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # session-start hook for claude-code-zh-cn (Windows PowerShell 版本)
 # 1. 注入中文上下文指令
 # 2. 检测插件 Release 更新并同步安装态
@@ -22,19 +22,44 @@ $LauncherBinDir = if ($env:ZH_CN_LAUNCHER_BIN_DIR) {
 } else {
     "$env:USERPROFILE\.claude\bin"
 }
+$TmpDir = "$env:TEMP\cczh-hook-$PID"
+
+# ======== helper: write JS to temp file, execute with node, return stdout ========
+function Invoke-JsScript {
+    param(
+        [string]$Code,
+        [string[]]$Args
+    )
+    $tmp = Join-Path $TmpDir "tmp-$PID-$((Get-Random).ToString('x')).js"
+    New-Item -Force -ItemType Directory -Path $TmpDir | Out-Null
+    $Code | Out-File -FilePath $tmp -Encoding ascii -NoNewline
+    try {
+        if ($Args) {
+            node $tmp @Args 2>$null
+        } else {
+            node $tmp 2>$null
+        }
+    } finally {
+        Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+    }
+}
 
 # ======== helper functions ========
 
 function Read-ManifestVersion($Target) {
-    node -e "try{const d=JSON.parse(require('fs').readFileSync(process.argv[2],'utf8'));process.stdout.write(String(d.version||''))}catch(e){}" $Target 2>$null
+    $code = @'
+try{const d=JSON.parse(require("fs").readFileSync(process.argv[2],"utf8"));process.stdout.write(String(d.version||""))}catch(e){}
+'@
+    Invoke-JsScript -Code $code -Args @($Target)
 }
 
 function Test-VersionIsNewer($Current, $Latest) {
-    node -e @"
-function parse(v){return String(v||'').split('.').map(p=>{const n=Number.parseInt(p,10);return Number.isFinite(n)?n:0})}
+    $code = @'
+function parse(v){return String(v||"").split(".").map(p=>{const n=Number.parseInt(p,10);return Number.isFinite(n)?n:0})}
 function cmp(a,b){const m=Math.max(a.length,b.length);for(let i=0;i<m;i++){const l=a[i]||0,r=b[i]||0;if(l>r)return 1;if(l<r)return -1}return 0}
-process.exit(cmp(parse('$Latest'),parse('$Current'))>0?0:1)
-"@ 2>$null
+process.exit(cmp(parse(process.argv[2]),parse(process.argv[3]))>0?0:1)
+'@
+    Invoke-JsScript -Code $code -Args @($Latest, $Current)
     return ($LASTEXITCODE -eq 0)
 }
 
@@ -53,35 +78,40 @@ function Find-RealClaudeBinary {
 }
 
 function Get-PatchRevision($Root) {
-    node -e @"
-const crypto=require('crypto'),fs=require('fs'),path=require('path');
+    $code = @'
+const crypto=require("crypto"),fs=require("fs"),path=require("path");
 const root=process.argv[2];
-const files=['manifest.json','patch-cli.sh','patch-cli.js','cli-translations.json','bun-binary-io.js','compute-patch-revision.sh'];
-const hash=crypto.createHash('sha256');
-for(const f of files){const t=path.join(root,f);if(!fs.existsSync(t))continue;hash.update(f);hash.update('\0');hash.update(fs.readFileSync(t));hash.update('\0')}
-process.stdout.write(hash.digest('hex').slice(0,16));
-"@ $Root 2>$null
+const files=["manifest.json","patch-cli.sh","patch-cli.js","cli-translations.json","bun-binary-io.js","compute-patch-revision.sh"];
+const hash=crypto.createHash("sha256");
+for(const f of files){const t=path.join(root,f);if(!fs.existsSync(t))continue;hash.update(f);hash.update("\0");hash.update(fs.readFileSync(t));hash.update("\0")}
+process.stdout.write(hash.digest("hex").slice(0,16));
+'@
+    Invoke-JsScript -Code $code -Args @($Root)
 }
 
 function Read-CliVersion($CliFile) {
-    node -e "const t=require('fs').readFileSync(process.argv[2],'utf8');const m=t.match(/^\/\/ Version: (.+)\$/m);process.stdout.write(m?m[1]:'')" $CliFile 2>$null
+    $code = @'
+const t=require("fs").readFileSync(process.argv[2],"utf8");const m=t.match(/^\/\/ Version: (.+)$/m);process.stdout.write(m?m[1]:"")
+'@
+    Invoke-JsScript -Code $code -Args @($CliFile)
 }
 
 function Test-NpmCliResidue($CliFile) {
-    node -e @"
-const fs=require('fs');
-const probes=['Quick safety check','This command requires approval','Use /btw to ask a quick side question without interrupting Claude\'s current work'];
-try{const t=fs.readFileSync(process.argv[2],'utf8');const r=probes.filter(p=>t.includes(p));if(r.length>0){process.stdout.write(r.join(' | '));process.exit(0)}}catch(e){}
+    $code = @'
+const fs=require("fs");
+const probes=["Quick safety check","This command requires approval","Use /btw to ask a quick side question without interrupting Claude\u0027s current work"];
+try{const t=fs.readFileSync(process.argv[2],"utf8");const r=probes.filter(p=>t.includes(p));if(r.length>0){process.stdout.write(r.join(" | "));process.exit(0)}}catch(e){}
 process.exit(1);
-"@ $CliFile 2>$null
+'@
+    Invoke-JsScript -Code $code -Args @($CliFile)
     return ($LASTEXITCODE -eq 0)
 }
 
 function Get-InstallInfo($ClaudeBin) {
-    if (-not $ClaudeBin -or -not (Test-Path "$PluginRoot\bun-binary-io.js")) {
-        return $null
-    }
-    return (node "$PluginRoot\bun-binary-io.js" detect $ClaudeBin 2>$null)
+    if (-not $ClaudeBin) { return $null }
+    $helperFile = Join-Path $PluginRoot "bun-binary-io.js"
+    if (-not (Test-Path $helperFile)) { return $null }
+    node $helperFile detect "$ClaudeBin" 2>$null
 }
 
 # ======== Auto Update ========
@@ -147,7 +177,7 @@ if ($SourceRepo -and (Test-Path "$SourceRepo\.git") -and $env:ZH_CN_DISABLE_AUTO
 $AutoPatchMsg = ""
 $ClaudeBin = Find-RealClaudeBinary
 $InstallInfo = $null
-if ($ClaudeBin -and (Test-Path "$PluginRoot\bun-binary-io.js")) {
+if ($ClaudeBin) {
     $InstallInfo = Get-InstallInfo $ClaudeBin
 }
 
@@ -165,14 +195,19 @@ if ($InstallInfo) {
         $hasResidue = Test-NpmCliResidue $Target
         if ($CurrentMarker -ne $PatchedVersion -or $hasResidue) {
             if (Test-Path "$PluginRoot\patch-cli.js") {
-                $patchCount = node "$PluginRoot\patch-cli.js" $Target "$PluginRoot\cli-translations.json" 2>$null
+                $patchCount = node "$PluginRoot\patch-cli.js" "$Target" "$PluginRoot\cli-translations.json" 2>$null
                 if ($patchCount -and [int]$patchCount -gt 0) {
-                    $CurrentMarker | Out-File -FilePath $MarkerFile -Encoding ascii -NoNewline
+                    "$CurrentMarker" | Out-File -FilePath $MarkerFile -Encoding ascii -NoNewline
                     $AutoPatchMsg = "（已自动 patch ${patchCount} 处硬编码文字）"
                 }
             }
         }
     }
+}
+
+# ======== Cleanup tmp dir ========
+if (Test-Path $TmpDir) {
+    Remove-Item -Recurse -Force $TmpDir -ErrorAction SilentlyContinue
 }
 
 # ======== Build output context ========

@@ -86,8 +86,7 @@ function completion {
     Write-CN "  √ 会话启动 Hook → 中文上下文注入（Windows PowerShell）" Green
     Write-CN "  √ 通知 Hook → 中文翻译（Windows PowerShell）" Green
     Write-CN "  √ 输出风格 → Chinese" Green
-    Write-CN "  √ 自动重 patch → Claude Code 更新后首次会话自动修复" Green
-    Write-CN "  √ npm 启动前自修复 → npm 更新后首次启动会先 patch" Green
+    Write-CN "  √ 自动重 patch → Claude Code 更新后首次会话自动修复（session-start 兜底）" Green
     Write-CN "  √ 自动更新 → 插件发布新 Release 后自动同步" Green
     if ($CliPatchStatusOk) {
         Write-CN "  √ CLI Patch → $CliPatchStatusSummary" Green
